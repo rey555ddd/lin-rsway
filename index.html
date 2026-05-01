@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>神策 — 天堂一懷舊血盟</title>
-  <meta name="description" content="神策血盟 — 天堂一懷舊版。血盟公告、成員花名冊、打王紀錄、攻城戰排程。">
+  <title>神策 5服交流群 — 天堂一懷舊版</title>
+  <meta name="description" content="神策 5服交流群 — 天堂一懷舊版。血盟公告、成員花名冊（LINE 名 ↔ 遊戲 ID）、打王紀錄。">
+  <meta property="og:title" content="神策 5服交流群 — 天堂一懷舊版">
+  <meta property="og:description" content="神策 5服交流群 血盟公告、成員花名冊、打王紀錄">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -182,10 +184,10 @@
 
     .hero h1 {
       font-family: 'Cinzel', 'Noto Serif TC', serif;
-      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-size: clamp(2.0rem, 7vw, 3.4rem);
       font-weight: 700;
       color: var(--crimson-dark);
-      letter-spacing: 8px;
+      letter-spacing: 6px;
       line-height: 1.2;
       text-shadow: 2px 2px 6px rgba(139,58,58,.2);
     }
@@ -198,6 +200,13 @@
       letter-spacing: 4px;
     }
 
+    .hero-name-note {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+
     .hero-slogan {
       margin: 20px auto 0;
       max-width: 480px;
@@ -205,6 +214,52 @@
       font-size: 1.05rem;
       color: var(--ink-mid);
       font-style: italic;
+    }
+
+    /* ===== 私服 CTA 按鈕 ===== */
+    .server-cta-wrap {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .server-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold);
+      color: var(--ink) !important;
+      padding: 14px 28px;
+      border-radius: 4px;
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: 2px solid #a07840;
+      box-shadow: 0 3px 12px rgba(42,31,15,.25), inset 0 1px 0 rgba(255,255,255,.2);
+      text-decoration: none;
+      transition: background .2s, box-shadow .2s, transform .1s;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .server-cta:hover {
+      background: var(--crimson) !important;
+      color: var(--gold-light) !important;
+      box-shadow: 0 5px 18px rgba(139,58,58,.4);
+      transform: translateY(-2px);
+    }
+    .server-cta .cta-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .server-cta .cta-sub {
+      font-size: 12px;
+      opacity: .75;
+      font-weight: 400;
+      font-family: 'Noto Sans TC', sans-serif;
     }
 
     .hero-meta {
@@ -287,19 +342,18 @@
     }
     .empty-announce i { display: block; margin: 0 auto 12px; color: var(--gold); }
 
-    /* ===== 成員花名冊 ===== */
+    /* ===== 成員花名冊（LINE ↔ 遊戲 ID 對照）===== */
     .members-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
     }
 
     .member-card {
       background: var(--parchment);
       border: 1px solid var(--gold);
       border-radius: 4px;
-      padding: 20px 16px;
-      text-align: center;
+      padding: 16px;
       transition: transform .2s, box-shadow .2s;
       position: relative;
     }
@@ -308,41 +362,85 @@
       box-shadow: 0 6px 20px rgba(139,58,58,.15);
     }
 
-    .member-avatar {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 12px;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      background: var(--crimson-dark);
+    /* 對照卡：左右兩欄 */
+    .member-compare {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .member-side {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+    .member-side-label {
+      font-size: 10px;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 4px;
+      font-weight: 600;
     }
-    .member-avatar i { color: var(--gold-light); }
-
-    .member-id {
+    .member-side-label.line-label {
+      color: #00b900;
+    }
+    .member-side-label.game-label {
+      color: var(--shadow-purple);
+    }
+    .member-side-name {
       font-family: 'Noto Serif TC', serif;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: var(--crimson-dark);
+      word-break: break-all;
     }
-    .member-class {
+
+    /* 中間箭頭 */
+    .member-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .member-arrow i { }
+
+    /* 職業 / 等級 */
+    .member-footer {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--parchment-deep);
+      display: flex;
+      justify-content: center;
+      gap: 16px;
       font-size: 12px;
       color: var(--ink-light);
-      margin-top: 3px;
     }
-    .member-lv {
-      font-size: 12px;
+    .member-footer .job {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--ink-mid);
+    }
+    .member-footer .lv {
       color: var(--gold);
       font-weight: 600;
-      margin-top: 4px;
     }
+
     .member-pending {
       position: absolute;
       top: 6px;
       right: 6px;
     }
+
+    /* 職業 icon 色 */
+    .job-royal   { color: var(--gold); }
+    .job-knight  { color: var(--ink-mid); }
+    .job-elf     { color: var(--forest); }
+    .job-mage    { color: var(--shadow-purple); }
+    .job-darkelf { color: #5a3a7e; }
 
     /* ===== 打王紀錄表格 ===== */
     .boss-table-wrap { overflow-x: auto; }
@@ -376,56 +474,6 @@
     tbody td.mvp { color: var(--crimson); font-weight: 600; }
     .boss-name { color: var(--shadow-purple); font-weight: 600; }
     .loot { color: var(--forest); }
-
-    /* ===== 攻城戰 ===== */
-    .siege-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-    }
-
-    .siege-card {
-      background: var(--parchment);
-      border: 1px solid var(--gold);
-      border-radius: 4px;
-      padding: 20px;
-      border-left: 4px solid var(--crimson);
-    }
-
-    .siege-date {
-      font-size: 11px;
-      color: var(--ink-light);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-    .siege-castle {
-      font-family: 'Noto Serif TC', serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--crimson-dark);
-      margin-bottom: 8px;
-    }
-    .siege-info {
-      font-size: 13px;
-      color: var(--ink-mid);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .siege-info span { display: flex; align-items: center; gap: 6px; }
-    .siege-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      margin-top: 10px;
-    }
-    .siege-status.pending { background: rgba(74,58,94,.15); color: var(--shadow-purple); }
-    .siege-status.open    { background: rgba(61,77,61,.15); color: var(--forest); }
 
     /* ===== 留言板 ===== */
     .board-notice {
@@ -488,11 +536,12 @@
     @media (max-width: 600px) {
       main { padding: 24px 14px 60px; }
       .hero { padding: 40px 16px 36px; }
-      .hero h1 { letter-spacing: 4px; }
+      .hero h1 { letter-spacing: 3px; }
       .scroll-box { padding: 24px 20px; }
       .scroll-box::before { margin-left: -20px; margin-right: -20px; }
       .scroll-box::after  { margin-left: -20px; margin-right: -20px; }
       thead th, tbody td { padding: 8px 10px; font-size: 13px; }
+      .members-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -502,20 +551,19 @@
   <!-- Demo 警示 Banner -->
   <div class="demo-banner">
     <i data-lucide="triangle-alert" width="14" height="14"></i>
-    本頁為視覺骨架 Demo — 所有內容（成員 ID、打王紀錄、攻城戰時間）均為示意，待主公補真實資料
+    本頁為視覺骨架 Demo — 所有內容（成員 ID、打王紀錄）均為示意，待主公補真實資料
   </div>
 
   <!-- 導航列 -->
   <nav>
     <div class="nav-brand">
       <i data-lucide="swords" width="22" height="22"></i>
-      神策血盟
+      神策 5服交流群
     </div>
     <div class="nav-links">
       <a href="#announce"><i data-lucide="scroll-text" width="14" height="14"></i>公告</a>
       <a href="#members"><i data-lucide="users" width="14" height="14"></i>成員</a>
       <a href="#boss"><i data-lucide="skull" width="14" height="14"></i>打王</a>
-      <a href="#siege"><i data-lucide="castle" width="14" height="14"></i>攻城</a>
       <a href="#board"><i data-lucide="message-square" width="14" height="14"></i>留言板</a>
     </div>
   </nav>
@@ -527,11 +575,24 @@
       <div class="hero-emblem">
         <i data-lucide="swords" width="48" height="48"></i>
       </div>
-      <h1>神策</h1>
-      <p class="hero-subtitle">天堂一懷舊血盟 · Lineage I</p>
+      <h1>神策 5服交流群</h1>
+      <p class="hero-subtitle">天堂一懷舊版 · Lineage I</p>
+      <p class="hero-name-note">※ 血盟名暫定、未來可能調整</p>
       <p class="hero-slogan">
         <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 待主公補血盟口號</span>
       </p>
+
+      <!-- 私服連結按鈕 -->
+      <div class="server-cta-wrap">
+        <a href="https://godtome123.com/" target="_blank" rel="noopener" class="server-cta">
+          <span class="cta-main">
+            <i data-lucide="external-link" width="18" height="18"></i>
+            我們玩的私服 ｜ godtome123.com
+          </span>
+          <span class="cta-sub">查資料很好用</span>
+        </a>
+      </div>
+
       <div class="hero-meta">
         <div class="hero-meta-item">
           <div class="label">創盟年份</div>
@@ -570,88 +631,231 @@
       </div>
     </section>
 
-    <!-- ===== SECTION 3：成員花名冊 ===== -->
+    <!-- ===== SECTION 3：成員花名冊（LINE 名 ↔ 遊戲 ID）===== -->
     <section id="members">
       <div class="section-title">
         <h2><i data-lucide="users" width="18" height="18"></i>成員花名冊</h2>
       </div>
       <p style="font-size:12px;color:var(--ink-light);margin-bottom:16px;">
-        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 所有成員 ID、等級為示意代號，待主公補真實資料</span>
+        LINE 名對照遊戲 ID，防止混淆 ·
+        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 所有名稱為示意代號，待主公補真實資料</span>
       </p>
       <div class="members-grid">
 
-        <!-- 角色 A：王族 -->
+        <!-- 示意卡 1 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar"><i data-lucide="crown" width="26" height="26"></i></div>
-          <div class="member-id">角色 A</div>
-          <div class="member-class">王族</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 A</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 A</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="crown" width="12" height="12" class="job-royal"></i> 王族</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
-        <!-- 角色 B：騎士 -->
+        <!-- 示意卡 2 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar"><i data-lucide="shield" width="26" height="26"></i></div>
-          <div class="member-id">角色 B</div>
-          <div class="member-class">騎士</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 B</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 B</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="shield" width="12" height="12" class="job-knight"></i> 騎士</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
-        <!-- 角色 C：妖精 -->
+        <!-- 示意卡 3 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar"><i data-lucide="tree-pine" width="26" height="26"></i></div>
-          <div class="member-id">角色 C</div>
-          <div class="member-class">妖精</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 C</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 C</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="tree-pine" width="12" height="12" class="job-elf"></i> 妖精</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
-        <!-- 角色 D：法師 -->
+        <!-- 示意卡 4 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar"><i data-lucide="sparkles" width="26" height="26"></i></div>
-          <div class="member-id">角色 D</div>
-          <div class="member-class">法師</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 D</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 D</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="sparkles" width="12" height="12" class="job-mage"></i> 法師</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
-        <!-- 角色 E：黑暗妖精 -->
+        <!-- 示意卡 5 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar" style="background:var(--shadow-purple);"><i data-lucide="moon" width="26" height="26"></i></div>
-          <div class="member-id">角色 E</div>
-          <div class="member-class">黑暗妖精</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 E</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 E</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="moon" width="12" height="12" class="job-darkelf"></i> 黑暗妖精</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
-        <!-- 角色 F：騎士 -->
+        <!-- 示意卡 6 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar"><i data-lucide="shield" width="26" height="26"></i></div>
-          <div class="member-id">角色 F</div>
-          <div class="member-class">騎士</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 F</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 F</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="shield" width="12" height="12" class="job-knight"></i> 騎士</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
-        <!-- 角色 G：妖精 -->
+        <!-- 示意卡 7 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar"><i data-lucide="tree-pine" width="26" height="26"></i></div>
-          <div class="member-id">角色 G</div>
-          <div class="member-class">妖精</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 G</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 G</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="tree-pine" width="12" height="12" class="job-elf"></i> 妖精</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
-        <!-- 角色 H：法師 -->
+        <!-- 示意卡 8 -->
         <div class="member-card">
           <div class="member-pending"><span class="pending-tag">示意</span></div>
-          <div class="member-avatar"><i data-lucide="sparkles" width="26" height="26"></i></div>
-          <div class="member-id">角色 H</div>
-          <div class="member-class">法師</div>
-          <div class="member-lv">Lv. ??</div>
+          <div class="member-compare">
+            <div class="member-side">
+              <div class="member-side-label line-label">
+                <i data-lucide="message-circle" width="11" height="11"></i> LINE 名
+              </div>
+              <div class="member-side-name">LINE 名 H</div>
+            </div>
+            <div class="member-arrow">
+              <i data-lucide="arrow-right" width="18" height="18"></i>
+            </div>
+            <div class="member-side">
+              <div class="member-side-label game-label">
+                <i data-lucide="shield" width="11" height="11"></i> 遊戲 ID
+              </div>
+              <div class="member-side-name">角色名 H</div>
+            </div>
+          </div>
+          <div class="member-footer">
+            <span class="job"><i data-lucide="sparkles" width="12" height="12" class="job-mage"></i> 法師</span>
+            <span class="lv">Lv. 待補</span>
+          </div>
         </div>
 
+      </div>
+
+      <!-- 花名冊範本說明 -->
+      <div style="margin-top:16px;padding:12px 16px;background:rgba(201,169,106,.1);border:1px dashed var(--gold);border-radius:4px;font-size:12px;color:var(--ink-light);">
+        <i data-lucide="info" width="13" height="13" style="vertical-align:middle;margin-right:6px;color:var(--gold);"></i>
+        補充格式：LINE 名 / 遊戲 ID / 職業 / 等級 — 傳訊息給主公補入即可
       </div>
     </section>
 
@@ -709,40 +913,7 @@
       </div>
     </section>
 
-    <!-- ===== SECTION 5：攻城戰排程 ===== -->
-    <section id="siege">
-      <div class="section-title">
-        <h2><i data-lucide="castle" width="18" height="18"></i>攻城戰排程</h2>
-      </div>
-      <p style="font-size:12px;color:var(--ink-light);margin-bottom:16px;">
-        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 城堡名稱、時間、報名狀態均為示意，待主公確認後更新</span>
-      </p>
-      <div class="siege-grid">
-
-        <div class="siege-card">
-          <div class="siege-date"><i data-lucide="calendar" width="12" height="12"></i> 2026-??-??（<i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 待主公確認）</div>
-          <div class="siege-castle">目標城 A</div>
-          <div class="siege-info">
-            <span><i data-lucide="clock" width="13" height="13"></i> 集合時間：待定</span>
-            <span><i data-lucide="map-pin" width="13" height="13"></i> 集合地點：待定</span>
-          </div>
-          <div class="siege-status pending"><i data-lucide="hourglass" width="11" height="11"></i> 計畫中</div>
-        </div>
-
-        <div class="siege-card">
-          <div class="siege-date"><i data-lucide="calendar" width="12" height="12"></i> 2026-??-??（<i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 待主公確認）</div>
-          <div class="siege-castle">目標城 B</div>
-          <div class="siege-info">
-            <span><i data-lucide="clock" width="13" height="13"></i> 集合時間：待定</span>
-            <span><i data-lucide="map-pin" width="13" height="13"></i> 集合地點：待定</span>
-          </div>
-          <div class="siege-status open"><i data-lucide="user-plus" width="11" height="11"></i> 報名中</div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ===== SECTION 6：盟內留言板 ===== -->
+    <!-- ===== SECTION 5：盟內留言板 ===== -->
     <section id="board">
       <div class="section-title">
         <h2><i data-lucide="message-square" width="18" height="18"></i>盟內留言板</h2>
@@ -800,8 +971,8 @@
 
   <!-- Footer -->
   <footer>
-    <div class="footer-title">SHEN-CE · 神策天堂血盟交流站</div>
-    <p>v1 骨架版 · 合作品牌站 · 由 [Agent Team] 打造 · powered by <a href="https://rsway.net">rsway.net</a></p>
+    <div class="footer-title">SHEN-CE · 神策 5服交流群</div>
+    <p>v2 版 · 合作品牌站 · 由 [Agent Team] 打造 · powered by <a href="https://rsway.net">rsway.net</a></p>
     <p style="margin-top:4px;">最後更新：2026-05-01</p>
   </footer>
 
