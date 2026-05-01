@@ -796,6 +796,166 @@
       font-size: 12px;
     }
 
+    .trade-card-del {
+      background: none;
+      border: none;
+      color: var(--text-xs);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all .15s;
+    }
+    .trade-card-del:hover { background: var(--red-lt); color: var(--red); }
+
+    .trade-empty {
+      padding: 32px 16px;
+      text-align: center;
+      color: var(--text-xs);
+      font-size: 13px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+    }
+    .trade-empty i { display: block; margin: 0 auto 8px; opacity: .4; }
+
+    .trade-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .trade-toolbar-info {
+      font-size: 12px;
+      color: var(--text-xs);
+    }
+    .btn-add-trade {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(245,166,35,.25);
+      transition: all .15s;
+    }
+    .btn-add-trade:hover { background: var(--primary-dk); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245,166,35,.35); }
+
+    /* ===== Modal ===== */
+    .modal-mask {
+      position: fixed; inset: 0;
+      background: rgba(17,24,39,.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+    .modal-mask.show { display: flex; }
+    .modal-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+      animation: modalIn .25s cubic-bezier(.4,1.4,.4,1);
+    }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(20px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .modal-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text);
+    }
+    .modal-title i { color: var(--primary); }
+    .modal-row { margin-bottom: 14px; }
+    .modal-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-md);
+      margin-bottom: 6px;
+    }
+    .modal-input, .modal-select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: 'Noto Sans TC', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .15s;
+    }
+    .modal-input:focus, .modal-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(245,166,35,.1);
+    }
+    .modal-type-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .modal-type-btn {
+      padding: 10px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      cursor: pointer;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: all .15s;
+      color: var(--text-sm);
+    }
+    .modal-type-btn:hover { border-color: var(--text-xs); }
+    .modal-type-btn.active.buy { border-color: var(--red); color: var(--red); background: var(--red-lt); }
+    .modal-type-btn.active.sell { border-color: var(--green); color: var(--green); background: var(--green-lt); }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .btn-modal-cancel {
+      flex: 1;
+      background: var(--bg);
+      color: var(--text-sm);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn-modal-cancel:hover { background: var(--bg-alt); }
+    .btn-modal-submit {
+      flex: 1.4;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-modal-submit:hover { background: var(--primary-dk); }
+
     /* ===== 幸運扭蛋 ===== */
     .gacha-setup {
       display: grid;
@@ -930,76 +1090,135 @@
     .btn-draw:active:not(:disabled) { transform: translateY(0); }
     .btn-draw:disabled { opacity: .5; cursor: not-allowed; }
 
-    /* 寶箱動畫 */
-    .chest-stage {
+    /* ===== 3D 扭蛋機 PNG + 動畫 ===== */
+    .gacha-stage {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
       margin-bottom: 24px;
-      min-height: 110px;
-      align-items: center;
     }
-
-    .chest-container {
+    .gacha-img-wrap {
+      width: 240px; height: 240px;
       position: relative;
-      width: 120px;
-      height: 100px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform .15s;
+      filter: drop-shadow(0 14px 28px rgba(245,166,35,.28));
     }
-
-    .chest-body {
-      width: 120px;
-      height: 70px;
-      background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
-      border: 2px solid #d97706;
-      border-radius: var(--radius-sm);
+    .gacha-img-wrap:hover { transform: scale(1.04); }
+    .gacha-img-wrap:active { transform: scale(.97); }
+    .gacha-img-wrap.spinning { animation: gachaShake .3s infinite; pointer-events: none; }
+    @keyframes gachaShake {
+      0%,100% { transform: translateX(0) rotate(0); }
+      25%     { transform: translateX(-4px) rotate(-1.8deg); }
+      75%     { transform: translateX(4px) rotate(1.8deg); }
+    }
+    .gacha-img-wrap img {
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+    .gacha-tap-hint {
       position: absolute;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .chest-body .lock-icon { color: #92400e; }
-
-    .chest-lid {
-      width: 120px;
-      height: 36px;
-      background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%);
-      border: 2px solid #d97706;
-      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-      position: absolute;
-      top: 0;
-      transform-origin: bottom center;
-      transition: transform .4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .chest-lid.open {
-      transform: rotateX(-120deg) translateY(-10px);
-    }
-
-    @keyframes chestShake {
-      0%, 100% { transform: translateX(0) rotate(0deg); }
-      20%       { transform: translateX(-6px) rotate(-3deg); }
-      40%       { transform: translateX(6px) rotate(3deg); }
-      60%       { transform: translateX(-4px) rotate(-2deg); }
-      80%       { transform: translateX(4px) rotate(2deg); }
-    }
-    .chest-container.shaking {
-      animation: chestShake .5s ease-in-out 3;
-    }
-
-    @keyframes coinFly {
-      0%   { transform: translate(0,0) scale(1); opacity: 1; }
-      100% { transform: translate(var(--tx), var(--ty)) scale(0.5); opacity: 0; }
-    }
-    .coin-particle {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: var(--primary);
-      border-radius: 50%;
-      top: 20px;
-      left: 55px;
-      animation: coinFly .8s ease-out forwards;
+      bottom: -6px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--text);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      box-shadow: 0 3px 10px rgba(0,0,0,.18);
       pointer-events: none;
+      display: inline-flex; align-items: center; gap: 5px;
     }
+    .gacha-img-wrap.spinning .gacha-tap-hint { display: none; }
+
+    /* 扭蛋掉落 + 開蓋 */
+    .reveal-area {
+      margin-top: 12px;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: center;
+    }
+    .capsule {
+      position: relative;
+      width: 84px; height: 84px;
+      animation: capsuleDrop .7s cubic-bezier(.5,1.6,.4,1);
+    }
+    @keyframes capsuleDrop {
+      0%   { transform: translateY(-260px) scale(.3); opacity: 0; }
+      60%  { transform: translateY(18px) scale(1); opacity: 1; }
+      80%  { transform: translateY(-8px) scale(1); }
+      100% { transform: translateY(0) scale(1); }
+    }
+    .capsule-half {
+      position: absolute;
+      width: 84px; height: 42px;
+      transition: transform .5s cubic-bezier(.5,0,.5,1);
+      box-shadow: inset -3px -3px 7px rgba(0,0,0,.18);
+    }
+    .capsule-half.top {
+      top: 0;
+      border-radius: 42px 42px 0 0;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dk) 100%);
+    }
+    .capsule-half.bottom {
+      bottom: 0;
+      border-radius: 0 0 42px 42px;
+      background: linear-gradient(0deg, var(--accent) 0%, var(--accent-dk) 100%);
+    }
+    .capsule.opened .capsule-half.top    { transform: translate(-26px,-44px) rotate(-30deg); }
+    .capsule.opened .capsule-half.bottom { transform: translate(26px,44px) rotate(30deg); opacity: .55; }
+
+    .prize-paper {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 16px 24px;
+      min-width: 240px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(245,166,35,.22);
+      opacity: 0;
+      transform: scale(.5);
+      transition: all .5s cubic-bezier(.4,1.5,.4,1);
+      position: relative;
+    }
+    .prize-paper.show { opacity: 1; transform: scale(1); }
+    .prize-paper::before, .prize-paper::after {
+      content: ""; position: absolute;
+      top: -1px; width: 12px; height: 6px;
+      background: var(--primary);
+      border-radius: 0 0 6px 6px;
+    }
+    .prize-paper::before { left: 28px; }
+    .prize-paper::after  { right: 28px; }
+    .prize-paper .prize-tag {
+      font-size: 11px;
+      letter-spacing: .18em;
+      color: var(--primary-dk);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .prize-paper .prize-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .prize-paper .winner {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      padding: 8px 0 2px;
+      border-top: 1px dashed var(--border);
+    }
+    .prize-paper .winner.empty { color: var(--text-xs); font-size: 1rem; font-weight: 500; }
 
     .gacha-results {
       border-top: 1px solid var(--border);
@@ -1141,7 +1360,7 @@
   <!-- Demo 警示 Banner -->
   <div class="demo-banner">
     <i data-lucide="triangle-alert" width="14" height="14"></i>
-    本頁為視覺骨架 Demo — 所有內容（成員 ID、分寶紀錄）均為示意，待主公補真實資料
+    Beta 測試版 — 成員花名冊、交易板資料目前存在你的瀏覽器（v2 將上雲端同步）
   </div>
 
   <!-- 導航列 -->
@@ -1277,8 +1496,7 @@
         <div class="section-line"></div>
       </div>
       <p style="font-size:12px;color:var(--text-xs);margin-bottom:16px;">
-        打到特別東西時，分寶就記在這裡 ·
-        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 以下 5 筆為示意，待主公手動 Key</span>
+        打到特別東西時，分寶就記在這裡
       </p>
       <div class="card" style="padding:0;overflow:hidden;">
         <div class="boss-table-wrap">
@@ -1295,44 +1513,10 @@
             </thead>
             <tbody>
               <tr>
-                <td>2026-??-??</td>
-                <td class="boss-name">Antharas</td>
-                <td class="loot-item"><i data-lucide="gem" width="12" height="12" style="vertical-align:middle;color:var(--primary);margin-right:3px;"></i>龍之項鍊</td>
-                <td class="loot-value">待估</td>
-                <td class="split-method">抽籤分配</td>
-                <td class="split-members">角色 A / B / C</td>
-              </tr>
-              <tr>
-                <td>2026-??-??</td>
-                <td class="boss-name">Valakas</td>
-                <td class="loot-item"><i data-lucide="gem" width="12" height="12" style="vertical-align:middle;color:var(--primary);margin-right:3px;"></i>火龍劍 +3</td>
-                <td class="loot-value">待估</td>
-                <td class="split-method">得分最高者得</td>
-                <td class="split-members">角色 B / D / F</td>
-              </tr>
-              <tr>
-                <td>2026-??-??</td>
-                <td class="boss-name">Baium</td>
-                <td class="loot-item"><i data-lucide="award" width="12" height="12" style="vertical-align:middle;color:var(--primary);margin-right:3px;"></i>天使鎧甲</td>
-                <td class="loot-value">待估</td>
-                <td class="split-method">均分賣幣</td>
-                <td class="split-members">全成員</td>
-              </tr>
-              <tr>
-                <td>2026-??-??</td>
-                <td class="boss-name">Zaken</td>
-                <td class="loot-item"><i data-lucide="gem" width="12" height="12" style="vertical-align:middle;color:var(--primary);margin-right:3px;"></i>暗黑指環</td>
-                <td class="loot-value">待估</td>
-                <td class="split-method">抽籤分配</td>
-                <td class="split-members">角色 A / C / E / G</td>
-              </tr>
-              <tr>
-                <td>2026-??-??</td>
-                <td class="boss-name">Core</td>
-                <td class="loot-item"><i data-lucide="coins" width="12" height="12" style="vertical-align:middle;color:var(--primary);margin-right:3px;"></i>核心之心 x2</td>
-                <td class="loot-value">待估</td>
-                <td class="split-method">均分賣幣</td>
-                <td class="split-members">角色 B / D / H</td>
+                <td colspan="6" style="text-align:center;padding:48px 16px;color:var(--text-xs);font-size:13px;">
+                  <i data-lucide="inbox" width="28" height="28" style="display:block;margin:0 auto 8px;opacity:0.4;"></i>
+                  尚無紀錄 · 打到特別東西時再來補上
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1394,31 +1578,19 @@
           </div>
         </div>
 
-        <!-- 寶箱動畫 -->
-        <div class="chest-stage">
-          <div class="chest-container" id="chestContainer">
-            <div class="chest-lid" id="chestLid"></div>
-            <div class="chest-body">
-              <i data-lucide="lock" width="22" height="22" class="lock-icon" id="chestLock"></i>
-            </div>
+        <!-- 3D 扭蛋機 -->
+        <div class="gacha-stage">
+          <div class="gacha-img-wrap" id="gachaImg" onclick="startDraw()">
+            <img src="gacha-machine.png" alt="柴犬扭蛋機">
+            <div class="gacha-tap-hint"><i data-lucide="hand" width="12" height="12"></i> 點我開抽</div>
           </div>
         </div>
 
-        <!-- 抽獎按鈕 -->
-        <div class="gacha-btn-wrap">
-          <button class="btn-draw" id="btnDraw" onclick="startDraw()">
-            <i data-lucide="dice-6" width="22" height="22"></i>
-            開始抽獎
-          </button>
-        </div>
+        <!-- 揭曉區 -->
+        <div class="reveal-area" id="revealArea"></div>
 
-        <!-- 結果區 -->
+        <!-- 結果動作列 -->
         <div class="gacha-results" id="gachaResults" style="display:none;">
-          <div class="results-title">
-            <i data-lucide="trophy" width="16" height="16"></i>
-            抽獎結果
-          </div>
-          <div class="result-list" id="resultList"></div>
           <div id="warningMsg" style="display:none;" class="result-warning">
             <i data-lucide="alert-triangle" width="14" height="14"></i>
             <span id="warningText"></span>
@@ -1444,88 +1616,80 @@
         <h2><i data-lucide="arrow-left-right" width="17" height="17"></i>交易留言板</h2>
         <div class="section-line"></div>
       </div>
-      <p style="font-size:12px;color:var(--text-xs);margin-bottom:20px;">
-        盟內交易公告板 · 價格可寫「面議」 ·
-        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 以下為示意卡，待主公補真實交易</span>
-      </p>
+
+      <div class="trade-toolbar">
+        <div class="trade-toolbar-info">
+          盟內交易公告板 · 自助新增 · 價格可寫「面議」
+        </div>
+        <button class="btn-add-trade" onclick="openTradeModal()">
+          <i data-lucide="plus" width="14" height="14"></i> 新增交易
+        </button>
+      </div>
 
       <div class="trade-grid">
-
         <!-- 收購中 -->
         <div class="trade-col trade-col-buy">
           <div class="trade-col-header">
             <i data-lucide="shopping-cart" width="15" height="15"></i>
-            收購中
+            收購中（<span id="buyCount">0</span>）
           </div>
-          <div class="trade-cards">
-            <div class="trade-card trade-card-buy">
-              <div class="trade-item-name">龍之頸鍊</div>
-              <div class="trade-price"><i data-lucide="coins" width="12" height="12"></i> 面議</div>
-              <div class="trade-meta">
-                <span class="trade-line-id"><i data-lucide="message-circle" width="10" height="10"></i> LINE: 待主公補</span>
-                <span>2026-??-??</span>
-              </div>
-            </div>
-            <div class="trade-card trade-card-buy">
-              <div class="trade-item-name">強化石 +7 以上</div>
-              <div class="trade-price"><i data-lucide="coins" width="12" height="12"></i> 5,000 金幣 / 顆</div>
-              <div class="trade-meta">
-                <span class="trade-line-id"><i data-lucide="message-circle" width="10" height="10"></i> LINE: 待主公補</span>
-                <span>2026-??-??</span>
-              </div>
-            </div>
-            <div class="trade-card trade-card-buy">
-              <div class="trade-item-name">惡魔法袍套裝</div>
-              <div class="trade-price"><i data-lucide="coins" width="12" height="12"></i> 面議</div>
-              <div class="trade-meta">
-                <span class="trade-line-id"><i data-lucide="message-circle" width="10" height="10"></i> LINE: 待主公補</span>
-                <span>2026-??-??</span>
-              </div>
-            </div>
-          </div>
+          <div class="trade-cards" id="buyCards"></div>
         </div>
 
         <!-- 出售中 -->
         <div class="trade-col trade-col-sell">
           <div class="trade-col-header">
             <i data-lucide="tag" width="15" height="15"></i>
-            出售中
+            出售中（<span id="sellCount">0</span>）
           </div>
-          <div class="trade-cards">
-            <div class="trade-card trade-card-sell">
-              <div class="trade-item-name">紅色藥水 x50</div>
-              <div class="trade-price"><i data-lucide="coins" width="12" height="12"></i> 200 金幣 / 包</div>
-              <div class="trade-meta">
-                <span class="trade-line-id"><i data-lucide="message-circle" width="10" height="10"></i> LINE: 待主公補</span>
-                <span>2026-??-??</span>
-              </div>
-            </div>
-            <div class="trade-card trade-card-sell">
-              <div class="trade-item-name">騎士鐵盔 +4</div>
-              <div class="trade-price"><i data-lucide="coins" width="12" height="12"></i> 8,000 金幣</div>
-              <div class="trade-meta">
-                <span class="trade-line-id"><i data-lucide="message-circle" width="10" height="10"></i> LINE: 待主公補</span>
-                <span>2026-??-??</span>
-              </div>
-            </div>
-            <div class="trade-card trade-card-sell">
-              <div class="trade-item-name">大師之指環（法師用）</div>
-              <div class="trade-price"><i data-lucide="coins" width="12" height="12"></i> 面議</div>
-              <div class="trade-meta">
-                <span class="trade-line-id"><i data-lucide="message-circle" width="10" height="10"></i> LINE: 待主公補</span>
-                <span>2026-??-??</span>
-              </div>
-            </div>
-          </div>
+          <div class="trade-cards" id="sellCards"></div>
         </div>
-
       </div>
 
       <div class="info-note">
         <i data-lucide="info" width="13" height="13"></i>
-        想刊交易？格式：收/賣 / 物品名 / 價格 / LINE ID — 傳主公更新
+        資料目前儲存在你的瀏覽器 · v2 將接 Cloudflare KV、跨裝置同步
       </div>
     </section>
+
+    <!-- ===== 交易 Modal ===== -->
+    <div class="modal-mask" id="tradeModal">
+      <div class="modal-card">
+        <div class="modal-title"><i data-lucide="plus-circle" width="18" height="18"></i> 新增交易</div>
+
+        <div class="modal-row">
+          <label class="modal-label">類型</label>
+          <div class="modal-type-row">
+            <button type="button" class="modal-type-btn buy" id="typeBtnBuy" onclick="setTradeType('buy')">
+              <i data-lucide="shopping-cart" width="13" height="13"></i> 收購
+            </button>
+            <button type="button" class="modal-type-btn sell" id="typeBtnSell" onclick="setTradeType('sell')">
+              <i data-lucide="tag" width="13" height="13"></i> 出售
+            </button>
+          </div>
+        </div>
+
+        <div class="modal-row">
+          <label class="modal-label">品項</label>
+          <input type="text" class="modal-input" id="tradeItem" maxlength="40" placeholder="例：龍之頸鍊、強化石 +7、紅水 x50">
+        </div>
+
+        <div class="modal-row">
+          <label class="modal-label">預期價格</label>
+          <input type="text" class="modal-input" id="tradePrice" maxlength="40" placeholder="例：5000 金幣 / 顆、面議">
+        </div>
+
+        <div class="modal-row">
+          <label class="modal-label">你的 LINE 名（給人聯絡用）</label>
+          <input type="text" class="modal-input" id="tradeLine" maxlength="30" placeholder="LINE 暱稱">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-cancel" onclick="closeTradeModal()">取消</button>
+          <button type="button" class="btn-modal-submit" onclick="submitTrade()">送出</button>
+        </div>
+      </div>
+    </div>
 
   </main>
 
@@ -1793,6 +1957,8 @@
       btn.closest('.prize-row').remove();
     }
 
+    let lastResults = [];
+
     function startDraw() {
       if (isDrawing) return;
       const prizes   = getPrizes();
@@ -1801,44 +1967,19 @@
       if (entrants.length === 0) { alert('請填寫至少一位報名者！'); return; }
 
       isDrawing = true;
-      document.getElementById('btnDraw').disabled = true;
       document.getElementById('gachaResults').style.display = 'none';
-      document.getElementById('resultList').innerHTML = '';
       document.getElementById('warningMsg').style.display = 'none';
+      document.getElementById('revealArea').innerHTML = '';
 
-      const chest = document.getElementById('chestContainer');
-      chest.classList.add('shaking');
+      const img = document.getElementById('gachaImg');
+      img.classList.add('spinning');
 
       setTimeout(() => {
-        chest.classList.remove('shaking');
-        document.getElementById('chestLid').classList.add('open');
-        document.getElementById('chestLock').setAttribute('data-lucide', 'unlock');
-        lucide.createIcons({ nodes: [document.getElementById('chestLock').parentElement] });
-        spawnCoins();
-
-        setTimeout(() => {
-          const results = computeResults(prizes, entrants);
-          showResults(results, prizes.length, entrants.length);
-          isDrawing = false;
-          document.getElementById('btnDraw').disabled = false;
-        }, 900);
-      }, 1600);
-    }
-
-    function spawnCoins() {
-      for (let i = 0; i < 12; i++) {
-        const coin = document.createElement('div');
-        coin.className = 'coin-particle';
-        const angle = (Math.random() * 220 - 110) * (Math.PI / 180);
-        const dist  = 50 + Math.random() * 60;
-        const tx = Math.sin(angle) * dist;
-        const ty = -Math.abs(Math.cos(angle)) * dist - 20;
-        coin.style.setProperty('--tx', tx + 'px');
-        coin.style.setProperty('--ty', ty + 'px');
-        coin.style.animationDelay = (Math.random() * 0.3) + 's';
-        document.getElementById('chestContainer').appendChild(coin);
-        setTimeout(() => coin.remove(), 1200);
-      }
+        img.classList.remove('spinning');
+        const results = computeResults(prizes, entrants);
+        lastResults = results;
+        revealCapsules(results, prizes.length, entrants.length);
+      }, 1500);
     }
 
     function computeResults(prizes, entrants) {
@@ -1849,54 +1990,54 @@
       }));
     }
 
-    function showResults(results, totalPrizes, totalEntrants) {
-      const resultList = document.getElementById('resultList');
-      const warningMsg  = document.getElementById('warningMsg');
-      const warningText = document.getElementById('warningText');
-      resultList.innerHTML = '';
+    function revealCapsules(results, totalPrizes, totalEntrants) {
+      const area = document.getElementById('revealArea');
+      area.innerHTML = '';
 
-      let delay = 0;
-      results.forEach(r => {
-        const item = document.createElement('div');
-        item.className = 'result-item';
-        item.style.animationDelay = delay + 'ms';
-        if (r.winner) {
-          item.innerHTML = `
-            <i data-lucide="gem" width="14" height="14" style="color:var(--primary);flex-shrink:0;"></i>
-            <span class="result-prize">${escapeHtml(r.prize)}</span>
-            <span class="result-arrow">—</span>
-            <span>得獎者：</span>
-            <span class="result-winner">${escapeHtml(r.winner)}</span>
-          `;
-        } else {
-          item.innerHTML = `
-            <i data-lucide="gem" width="14" height="14" style="color:var(--text-xs);flex-shrink:0;"></i>
-            <span class="result-prize" style="color:var(--text-xs);">${escapeHtml(r.prize)}</span>
-            <span class="result-arrow">—</span>
-            <span style="color:var(--text-xs);">流標（報名者不足）</span>
-          `;
-        }
-        resultList.appendChild(item);
-        delay += 120;
+      results.forEach((r, i) => {
+        setTimeout(() => {
+          const cap = document.createElement('div');
+          cap.className = 'capsule';
+          cap.innerHTML = `<div class="capsule-half top"></div><div class="capsule-half bottom"></div>`;
+          area.appendChild(cap);
+
+          setTimeout(() => {
+            cap.classList.add('opened');
+            const paper = document.createElement('div');
+            paper.className = 'prize-paper';
+            const winnerHtml = r.winner
+              ? `<div class="winner">${escapeHtml(r.winner)}</div>`
+              : `<div class="winner empty">流標 · 報名者不足</div>`;
+            paper.innerHTML = `
+              <div class="prize-tag">PRIZE ${String(i + 1).padStart(2, '0')}</div>
+              <div class="prize-title">${escapeHtml(r.prize)}</div>
+              ${winnerHtml}
+            `;
+            cap.parentNode.insertBefore(paper, cap.nextSibling);
+            cap.style.display = 'none';
+            setTimeout(() => paper.classList.add('show'), 50);
+
+            // 全部跑完才顯示動作列 + 警示
+            if (i === results.length - 1) {
+              setTimeout(() => {
+                if (totalPrizes > totalEntrants) {
+                  document.getElementById('warningText').textContent =
+                    `報名者不足（獎品 ${totalPrizes} 份、報名者 ${totalEntrants} 人），剩餘 ${totalPrizes - totalEntrants} 個獎品流標`;
+                  document.getElementById('warningMsg').style.display = 'flex';
+                }
+                document.getElementById('gachaResults').style.display = 'block';
+                isDrawing = false;
+              }, 400);
+            }
+          }, 600);
+        }, i * 1100);
       });
-
-      lucide.createIcons({ nodes: [resultList] });
-
-      if (totalPrizes > totalEntrants) {
-        warningText.textContent = `報名者不足（獎品 ${totalPrizes} 份、報名者 ${totalEntrants} 人），剩餘 ${totalPrizes - totalEntrants} 個獎品流標`;
-        warningMsg.style.display = 'flex';
-      }
-
-      document.getElementById('gachaResults').style.display = 'block';
     }
 
     function copyResults() {
-      const items = document.querySelectorAll('.result-item');
       let text = '【柴犬聯盟 抽獎結果】\n';
-      items.forEach(item => {
-        const prize  = item.querySelector('.result-prize')?.textContent?.trim() || '';
-        const winner = item.querySelector('.result-winner')?.textContent?.trim();
-        text += winner ? `${prize} → 得獎者：${winner}\n` : `${prize} → 流標\n`;
+      lastResults.forEach(r => {
+        text += r.winner ? `${r.prize} → 得獎者：${r.winner}\n` : `${r.prize} → 流標\n`;
       });
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.querySelector('.btn-copy-result');
@@ -1909,13 +2050,124 @@
 
     function resetDraw() {
       document.getElementById('gachaResults').style.display = 'none';
-      document.getElementById('resultList').innerHTML = '';
       document.getElementById('warningMsg').style.display = 'none';
-      document.getElementById('chestLid').classList.remove('open');
-      const lock = document.getElementById('chestLock');
-      lock.setAttribute('data-lucide', 'lock');
-      lucide.createIcons({ nodes: [lock.parentElement] });
+      document.getElementById('revealArea').innerHTML = '';
+      lastResults = [];
     }
+
+    /* =============================
+       交易留言板 — Modal + localStorage
+    ============================= */
+
+    function loadTrades() {
+      try { return JSON.parse(localStorage.getItem('chaiinu_trades') || '[]'); }
+      catch(e) { return []; }
+    }
+    function saveTrades(arr) {
+      localStorage.setItem('chaiinu_trades', JSON.stringify(arr));
+    }
+
+    let trades = loadTrades();
+    let currentTradeType = 'buy';
+
+    function renderTrades() {
+      const buys  = trades.filter(t => t.type === 'buy');
+      const sells = trades.filter(t => t.type === 'sell');
+      document.getElementById('buyCount').textContent  = buys.length;
+      document.getElementById('sellCount').textContent = sells.length;
+
+      const buyHtml = buys.length === 0
+        ? `<div class="trade-empty"><i data-lucide="inbox" width="24" height="24"></i>還沒有人在收購 · 點右上方「新增交易」開第一張</div>`
+        : buys.map(t => tradeCardHtml(t)).join('');
+
+      const sellHtml = sells.length === 0
+        ? `<div class="trade-empty"><i data-lucide="inbox" width="24" height="24"></i>還沒有人在出售 · 點右上方「新增交易」開第一張</div>`
+        : sells.map(t => tradeCardHtml(t)).join('');
+
+      document.getElementById('buyCards').innerHTML  = buyHtml;
+      document.getElementById('sellCards').innerHTML = sellHtml;
+      lucide.createIcons({ nodes: [document.getElementById('buyCards'), document.getElementById('sellCards')] });
+    }
+
+    function tradeCardHtml(t) {
+      const cls  = t.type === 'buy' ? 'trade-card-buy' : 'trade-card-sell';
+      const date = t.date || '';
+      return `
+        <div class="trade-card ${cls}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+            <div class="trade-item-name">${escapeHtml(t.item)}</div>
+            <button class="trade-card-del" onclick="deleteTrade('${t.id}')" title="刪除">刪除</button>
+          </div>
+          <div class="trade-price"><i data-lucide="coins" width="12" height="12"></i> ${escapeHtml(t.price)}</div>
+          <div class="trade-meta">
+            <span class="trade-line-id"><i data-lucide="message-circle" width="10" height="10"></i> LINE: ${escapeHtml(t.line)}</span>
+            <span>${escapeHtml(date)}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function openTradeModal() {
+      currentTradeType = 'buy';
+      setTradeType('buy');
+      document.getElementById('tradeItem').value  = '';
+      document.getElementById('tradePrice').value = '';
+      document.getElementById('tradeLine').value  = '';
+      document.getElementById('tradeModal').classList.add('show');
+      setTimeout(() => document.getElementById('tradeItem').focus(), 80);
+    }
+
+    function closeTradeModal() {
+      document.getElementById('tradeModal').classList.remove('show');
+    }
+
+    function setTradeType(type) {
+      currentTradeType = type;
+      document.getElementById('typeBtnBuy').classList.toggle('active', type === 'buy');
+      document.getElementById('typeBtnSell').classList.toggle('active', type === 'sell');
+    }
+
+    function submitTrade() {
+      const item  = document.getElementById('tradeItem').value.trim();
+      const price = document.getElementById('tradePrice').value.trim();
+      const line  = document.getElementById('tradeLine').value.trim();
+      if (!item)  { alert('請填品項'); return; }
+      if (!price) { alert('請填預期價格（可寫「面議」）'); return; }
+      if (!line)  { alert('請填你的 LINE 名'); return; }
+
+      const today = new Date();
+      const dateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+      trades.push({
+        id: 't_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+        type: currentTradeType,
+        item, price, line,
+        date: dateStr,
+      });
+      saveTrades(trades);
+      renderTrades();
+      closeTradeModal();
+    }
+
+    function deleteTrade(id) {
+      if (!confirm('確定刪除這筆交易？')) return;
+      trades = trades.filter(t => t.id !== id);
+      saveTrades(trades);
+      renderTrades();
+    }
+
+    // 點 mask 關閉
+    document.getElementById('tradeModal').addEventListener('click', (e) => {
+      if (e.target.id === 'tradeModal') closeTradeModal();
+    });
+    // ESC 關閉
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('tradeModal').classList.contains('show')) {
+        closeTradeModal();
+      }
+    });
+
+    renderTrades();
 
     function escapeHtml(str) {
       return String(str)
