@@ -267,7 +267,10 @@
       margin-top: 20px;
       display: flex;
       justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
+    .server-cta { min-width: 180px; text-align: center; }
 
     .server-cta {
       display: inline-flex;
@@ -1621,13 +1624,15 @@
       <!-- 神策天堂官網按鈕 -->
       <div class="server-cta-wrap">
         <a href="https://godtome123.com/" target="_blank" rel="noopener" class="server-cta">
-          <span class="cta-main">
+          <span class="cta-main" style="text-align:center;line-height:1.4;">
             <i data-lucide="external-link" width="16" height="16"></i>
-            神策天堂 官網
+            神策天堂<br>官方網站
           </span>
-          <span class="cta-sub">
-            <span class="server-preview-badge"><i data-lucide="globe" width="10" height="10"></i> godtome123.com</span>
-            &nbsp; 查資料很好用
+        </a>
+        <a href="https://godtome123.com/search/index.php?page=items&t=0&st=Magic_Doll" target="_blank" rel="noopener" class="server-cta">
+          <span class="cta-main" style="text-align:center;line-height:1.4;">
+            <i data-lucide="search" width="16" height="16"></i>
+            資料搜尋
           </span>
         </a>
       </div>
