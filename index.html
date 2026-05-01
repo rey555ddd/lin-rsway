@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>神策 — 天堂一懷舊血盟</title>
+  <meta name="description" content="神策血盟 — 天堂一懷舊版。血盟公告、成員花名冊、打王紀錄、攻城戰排程。">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ===== 全域設定 ===== */
+    :root {
+      --parchment:     #f5e6c8;
+      --parchment-dark:#ede0c4;
+      --parchment-deep:#d9c9a3;
+      --crimson:       #8b3a3a;
+      --crimson-dark:  #6a2828;
+      --gold:          #c9a96a;
+      --gold-light:    #e0c88a;
+      --forest:        #3d4d3d;
+      --shadow-purple: #4a3a5e;
+      --ink:           #2a1f0f;
+      --ink-mid:       #4a3820;
+      --ink-light:     #7a6040;
+      --warn-bg:       #c9a96a;
+      --warn-text:     #2a1f0f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--parchment-dark);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.07'/%3E%3C/svg%3E");
+      color: var(--ink);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    a { color: var(--crimson); text-decoration: none; }
+    a:hover { color: var(--gold); }
+
+    /* ===== 頂部 Demo 警示 Banner ===== */
+    .demo-banner {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      text-align: center;
+      padding: 10px 20px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      border-bottom: 2px solid var(--crimson);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .demo-banner i { vertical-align: middle; margin-right: 6px; }
+
+    /* ===== 導航列 ===== */
+    nav {
+      background: var(--crimson-dark);
+      border-bottom: 3px solid var(--gold);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      color: var(--gold-light);
+      font-family: 'Cinzel', 'Noto Serif TC', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .nav-brand i { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 8px 0;
+    }
+    .nav-links a {
+      color: var(--parchment);
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .2s, color .2s;
+    }
+    .nav-links a:hover {
+      background: rgba(201,169,106,.2);
+      color: var(--gold-light);
+    }
+
+    /* ===== 主體容器 ===== */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* ===== 分區標題（捲軸樣式）===== */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .section-title h2 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--crimson-dark);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title h2 i { color: var(--gold); }
+
+    /* ===== 待補標籤 ===== */
+    .pending-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(139,58,58,.12);
+      border: 1px solid var(--crimson);
+      color: var(--crimson-dark);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 50px;
+      background: linear-gradient(180deg, rgba(42,31,15,.08) 0%, transparent 100%);
+      border-bottom: 2px solid var(--gold);
+      margin-bottom: 60px;
+    }
+
+    .hero-emblem {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      background: var(--crimson-dark);
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(139,58,58,.4);
+    }
+    .hero-emblem i { color: var(--gold-light); }
+
+    .hero h1 {
+      font-family: 'Cinzel', 'Noto Serif TC', serif;
+      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-weight: 700;
+      color: var(--crimson-dark);
+      letter-spacing: 8px;
+      line-height: 1.2;
+      text-shadow: 2px 2px 6px rgba(139,58,58,.2);
+    }
+
+    .hero-subtitle {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+      color: var(--ink-light);
+      margin-top: 8px;
+      letter-spacing: 4px;
+    }
+
+    .hero-slogan {
+      margin: 20px auto 0;
+      max-width: 480px;
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      font-style: italic;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .hero-meta-item {
+      text-align: center;
+    }
+    .hero-meta-item .label {
+      font-size: 11px;
+      color: var(--ink-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .hero-meta-item .value {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+      color: var(--crimson);
+      font-weight: 700;
+    }
+
+    /* ===== 各 section 間距 ===== */
+    section { margin-bottom: 64px; }
+
+    /* ===== 公告卷軸 ===== */
+    .scroll-box {
+      background: var(--parchment);
+      border: 2px solid var(--gold);
+      border-radius: 4px;
+      padding: 32px 36px;
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(201,169,106,.1), 0 2px 10px rgba(42,31,15,.12);
+    }
+    .scroll-box::before,
+    .scroll-box::after {
+      content: '';
+      display: block;
+      height: 16px;
+      background: linear-gradient(to right, var(--gold), var(--parchment-deep), var(--gold));
+      margin: 0 -36px;
+    }
+    .scroll-box::before { margin-top: -32px; margin-bottom: 20px; border-radius: 2px 2px 0 0; }
+    .scroll-box::after  { margin-top: 20px; margin-bottom: -32px; border-radius: 0 0 2px 2px; }
+
+    .announce-item {
+      padding: 20px 0;
+      border-bottom: 1px dashed var(--parchment-deep);
+    }
+    .announce-item:last-child { border-bottom: none; }
+    .announce-date {
+      font-size: 11px;
+      color: var(--ink-light);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .announce-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--crimson-dark);
+      margin-bottom: 6px;
+    }
+    .announce-body {
+      color: var(--ink-mid);
+      font-size: 14px;
+    }
+
+    .empty-announce {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--ink-light);
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+    }
+    .empty-announce i { display: block; margin: 0 auto 12px; color: var(--gold); }
+
+    /* ===== 成員花名冊 ===== */
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .member-card {
+      background: var(--parchment);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+    }
+    .member-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(139,58,58,.15);
+    }
+
+    .member-avatar {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: var(--crimson-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .member-avatar i { color: var(--gold-light); }
+
+    .member-id {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--crimson-dark);
+    }
+    .member-class {
+      font-size: 12px;
+      color: var(--ink-light);
+      margin-top: 3px;
+    }
+    .member-lv {
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .member-pending {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+    }
+
+    /* ===== 打王紀錄表格 ===== */
+    .boss-table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead tr {
+      background: var(--crimson-dark);
+      color: var(--gold-light);
+    }
+    thead th {
+      padding: 10px 16px;
+      text-align: left;
+      font-family: 'Noto Serif TC', serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    tbody tr {
+      background: var(--parchment);
+      border-bottom: 1px solid var(--parchment-deep);
+    }
+    tbody tr:nth-child(even) { background: var(--parchment-dark); }
+    tbody tr:hover { background: rgba(201,169,106,.15); }
+    tbody td {
+      padding: 10px 16px;
+      color: var(--ink-mid);
+    }
+    tbody td:first-child { color: var(--ink-light); font-size: 12px; }
+    tbody td.mvp { color: var(--crimson); font-weight: 600; }
+    .boss-name { color: var(--shadow-purple); font-weight: 600; }
+    .loot { color: var(--forest); }
+
+    /* ===== 攻城戰 ===== */
+    .siege-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .siege-card {
+      background: var(--parchment);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 20px;
+      border-left: 4px solid var(--crimson);
+    }
+
+    .siege-date {
+      font-size: 11px;
+      color: var(--ink-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .siege-castle {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--crimson-dark);
+      margin-bottom: 8px;
+    }
+    .siege-info {
+      font-size: 13px;
+      color: var(--ink-mid);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .siege-info span { display: flex; align-items: center; gap: 6px; }
+    .siege-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+    .siege-status.pending { background: rgba(74,58,94,.15); color: var(--shadow-purple); }
+    .siege-status.open    { background: rgba(61,77,61,.15); color: var(--forest); }
+
+    /* ===== 留言板 ===== */
+    .board-notice {
+      background: rgba(74,58,94,.08);
+      border: 1px dashed var(--shadow-purple);
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--shadow-purple);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .message-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .message-item {
+      background: var(--parchment);
+      border: 1px solid var(--parchment-deep);
+      border-radius: 4px;
+      padding: 14px 16px;
+    }
+    .message-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .message-author {
+      font-weight: 600;
+      color: var(--crimson);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .message-time { font-size: 11px; color: var(--ink-light); }
+    .message-body { font-size: 14px; color: var(--ink-mid); }
+
+    /* ===== Footer ===== */
+    footer {
+      border-top: 2px solid var(--gold);
+      background: var(--crimson-dark);
+      color: var(--parchment-dark);
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+    }
+    footer .footer-title {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+    footer a { color: var(--gold); }
+
+    /* ===== RWD ===== */
+    @media (max-width: 600px) {
+      main { padding: 24px 14px 60px; }
+      .hero { padding: 40px 16px 36px; }
+      .hero h1 { letter-spacing: 4px; }
+      .scroll-box { padding: 24px 20px; }
+      .scroll-box::before { margin-left: -20px; margin-right: -20px; }
+      .scroll-box::after  { margin-left: -20px; margin-right: -20px; }
+      thead th, tbody td { padding: 8px 10px; font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Demo 警示 Banner -->
+  <div class="demo-banner">
+    <i data-lucide="triangle-alert" width="14" height="14"></i>
+    本頁為視覺骨架 Demo — 所有內容（成員 ID、打王紀錄、攻城戰時間）均為示意，待主公補真實資料
+  </div>
+
+  <!-- 導航列 -->
+  <nav>
+    <div class="nav-brand">
+      <i data-lucide="swords" width="22" height="22"></i>
+      神策血盟
+    </div>
+    <div class="nav-links">
+      <a href="#announce"><i data-lucide="scroll-text" width="14" height="14"></i>公告</a>
+      <a href="#members"><i data-lucide="users" width="14" height="14"></i>成員</a>
+      <a href="#boss"><i data-lucide="skull" width="14" height="14"></i>打王</a>
+      <a href="#siege"><i data-lucide="castle" width="14" height="14"></i>攻城</a>
+      <a href="#board"><i data-lucide="message-square" width="14" height="14"></i>留言板</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ===== SECTION 1：Hero ===== -->
+    <div class="hero">
+      <div class="hero-emblem">
+        <i data-lucide="swords" width="48" height="48"></i>
+      </div>
+      <h1>神策</h1>
+      <p class="hero-subtitle">天堂一懷舊血盟 · Lineage I</p>
+      <p class="hero-slogan">
+        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 待主公補血盟口號</span>
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <div class="label">創盟年份</div>
+          <div class="value"><span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 待補</span></div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">主城</div>
+          <div class="value"><span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 待主公拍板</span></div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">現役成員</div>
+          <div class="value"><span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 待補</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 2：盟主公告 ===== -->
+    <section id="announce">
+      <div class="section-title">
+        <h2><i data-lucide="scroll-text" width="18" height="18"></i>盟主公告</h2>
+      </div>
+      <div class="scroll-box">
+        <div class="empty-announce">
+          <i data-lucide="feather" width="32" height="32"></i>
+          <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 待主公補第一則公告</span>
+          <p style="margin-top:12px;font-size:13px;color:var(--ink-light);">公告格式：日期 / 標題 / 內文</p>
+        </div>
+        <!--
+          公告範本（待主公補後取消註解）：
+          <div class="announce-item">
+            <div class="announce-date"><i data-lucide="calendar" width="12" height="12"></i> 2026-MM-DD</div>
+            <div class="announce-title">公告標題</div>
+            <div class="announce-body">公告內容...</div>
+          </div>
+        -->
+      </div>
+    </section>
+
+    <!-- ===== SECTION 3：成員花名冊 ===== -->
+    <section id="members">
+      <div class="section-title">
+        <h2><i data-lucide="users" width="18" height="18"></i>成員花名冊</h2>
+      </div>
+      <p style="font-size:12px;color:var(--ink-light);margin-bottom:16px;">
+        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 所有成員 ID、等級為示意代號，待主公補真實資料</span>
+      </p>
+      <div class="members-grid">
+
+        <!-- 角色 A：王族 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar"><i data-lucide="crown" width="26" height="26"></i></div>
+          <div class="member-id">角色 A</div>
+          <div class="member-class">王族</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+        <!-- 角色 B：騎士 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar"><i data-lucide="shield" width="26" height="26"></i></div>
+          <div class="member-id">角色 B</div>
+          <div class="member-class">騎士</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+        <!-- 角色 C：妖精 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar"><i data-lucide="tree-pine" width="26" height="26"></i></div>
+          <div class="member-id">角色 C</div>
+          <div class="member-class">妖精</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+        <!-- 角色 D：法師 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar"><i data-lucide="sparkles" width="26" height="26"></i></div>
+          <div class="member-id">角色 D</div>
+          <div class="member-class">法師</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+        <!-- 角色 E：黑暗妖精 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar" style="background:var(--shadow-purple);"><i data-lucide="moon" width="26" height="26"></i></div>
+          <div class="member-id">角色 E</div>
+          <div class="member-class">黑暗妖精</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+        <!-- 角色 F：騎士 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar"><i data-lucide="shield" width="26" height="26"></i></div>
+          <div class="member-id">角色 F</div>
+          <div class="member-class">騎士</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+        <!-- 角色 G：妖精 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar"><i data-lucide="tree-pine" width="26" height="26"></i></div>
+          <div class="member-id">角色 G</div>
+          <div class="member-class">妖精</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+        <!-- 角色 H：法師 -->
+        <div class="member-card">
+          <div class="member-pending"><span class="pending-tag">示意</span></div>
+          <div class="member-avatar"><i data-lucide="sparkles" width="26" height="26"></i></div>
+          <div class="member-id">角色 H</div>
+          <div class="member-class">法師</div>
+          <div class="member-lv">Lv. ??</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SECTION 4：打王紀錄 ===== -->
+    <section id="boss">
+      <div class="section-title">
+        <h2><i data-lucide="skull" width="18" height="18"></i>打王紀錄</h2>
+      </div>
+      <p style="font-size:12px;color:var(--ink-light);margin-bottom:16px;">
+        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 所有日期、Boss 名稱、MVP、戰利品均為代號示意，待主公補真實紀錄</span>
+      </p>
+      <div class="boss-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><i data-lucide="calendar" width="13" height="13" style="vertical-align:middle;margin-right:4px;"></i>日期</th>
+              <th><i data-lucide="skull" width="13" height="13" style="vertical-align:middle;margin-right:4px;"></i>Boss</th>
+              <th><i data-lucide="star" width="13" height="13" style="vertical-align:middle;margin-right:4px;"></i>MVP</th>
+              <th><i data-lucide="package" width="13" height="13" style="vertical-align:middle;margin-right:4px;"></i>戰利品</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2026-??-??</td>
+              <td class="boss-name">Boss 1</td>
+              <td class="mvp">角色 ??</td>
+              <td class="loot">戰利品代號 A</td>
+            </tr>
+            <tr>
+              <td>2026-??-??</td>
+              <td class="boss-name">Boss 2</td>
+              <td class="mvp">角色 ??</td>
+              <td class="loot">戰利品代號 B</td>
+            </tr>
+            <tr>
+              <td>2026-??-??</td>
+              <td class="boss-name">Boss 3</td>
+              <td class="mvp">角色 ??</td>
+              <td class="loot">戰利品代號 C</td>
+            </tr>
+            <tr>
+              <td>2026-??-??</td>
+              <td class="boss-name">Boss 1</td>
+              <td class="mvp">角色 ??</td>
+              <td class="loot">戰利品代號 D</td>
+            </tr>
+            <tr>
+              <td>2026-??-??</td>
+              <td class="boss-name">Boss 4</td>
+              <td class="mvp">角色 ??</td>
+              <td class="loot">戰利品代號 E</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 5：攻城戰排程 ===== -->
+    <section id="siege">
+      <div class="section-title">
+        <h2><i data-lucide="castle" width="18" height="18"></i>攻城戰排程</h2>
+      </div>
+      <p style="font-size:12px;color:var(--ink-light);margin-bottom:16px;">
+        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 城堡名稱、時間、報名狀態均為示意，待主公確認後更新</span>
+      </p>
+      <div class="siege-grid">
+
+        <div class="siege-card">
+          <div class="siege-date"><i data-lucide="calendar" width="12" height="12"></i> 2026-??-??（<i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 待主公確認）</div>
+          <div class="siege-castle">目標城 A</div>
+          <div class="siege-info">
+            <span><i data-lucide="clock" width="13" height="13"></i> 集合時間：待定</span>
+            <span><i data-lucide="map-pin" width="13" height="13"></i> 集合地點：待定</span>
+          </div>
+          <div class="siege-status pending"><i data-lucide="hourglass" width="11" height="11"></i> 計畫中</div>
+        </div>
+
+        <div class="siege-card">
+          <div class="siege-date"><i data-lucide="calendar" width="12" height="12"></i> 2026-??-??（<i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 待主公確認）</div>
+          <div class="siege-castle">目標城 B</div>
+          <div class="siege-info">
+            <span><i data-lucide="clock" width="13" height="13"></i> 集合時間：待定</span>
+            <span><i data-lucide="map-pin" width="13" height="13"></i> 集合地點：待定</span>
+          </div>
+          <div class="siege-status open"><i data-lucide="user-plus" width="11" height="11"></i> 報名中</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SECTION 6：盟內留言板 ===== -->
+    <section id="board">
+      <div class="section-title">
+        <h2><i data-lucide="message-square" width="18" height="18"></i>盟內留言板</h2>
+      </div>
+      <div class="board-notice">
+        <i data-lucide="info" width="14" height="14"></i>
+        <span>留言板目前為展示版（v1）—— v2 接後端後可實際發言。所有示意留言為代號，非真實成員。</span>
+      </div>
+      <div class="message-list">
+
+        <div class="message-item">
+          <div class="message-header">
+            <span class="message-author"><i data-lucide="crown" width="13" height="13"></i> 角色 A</span>
+            <span class="message-time"><i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 示意時間</span>
+          </div>
+          <div class="message-body" style="color:var(--ink-light);font-style:italic;">[ 示意留言內容 — 待主公補真實發言 ]</div>
+        </div>
+
+        <div class="message-item">
+          <div class="message-header">
+            <span class="message-author"><i data-lucide="shield" width="13" height="13"></i> 角色 B</span>
+            <span class="message-time"><i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 示意時間</span>
+          </div>
+          <div class="message-body" style="color:var(--ink-light);font-style:italic;">[ 示意留言內容 — 待主公補真實發言 ]</div>
+        </div>
+
+        <div class="message-item">
+          <div class="message-header">
+            <span class="message-author"><i data-lucide="tree-pine" width="13" height="13"></i> 角色 C</span>
+            <span class="message-time"><i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 示意時間</span>
+          </div>
+          <div class="message-body" style="color:var(--ink-light);font-style:italic;">[ 示意留言內容 — 待主公補真實發言 ]</div>
+        </div>
+
+        <div class="message-item">
+          <div class="message-header">
+            <span class="message-author"><i data-lucide="sparkles" width="13" height="13"></i> 角色 D</span>
+            <span class="message-time"><i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 示意時間</span>
+          </div>
+          <div class="message-body" style="color:var(--ink-light);font-style:italic;">[ 示意留言內容 — 待主公補真實發言 ]</div>
+        </div>
+
+        <div class="message-item">
+          <div class="message-header">
+            <span class="message-author" style="color:var(--shadow-purple);"><i data-lucide="moon" width="13" height="13"></i> 角色 E</span>
+            <span class="message-time"><i data-lucide="alert-circle" width="11" height="11" style="vertical-align:middle;color:var(--crimson);"></i> 示意時間</span>
+          </div>
+          <div class="message-body" style="color:var(--ink-light);font-style:italic;">[ 示意留言內容 — 待主公補真實發言 ]</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-title">SHEN-CE · 神策天堂血盟交流站</div>
+    <p>v1 骨架版 · 合作品牌站 · 由 [Agent Team] 打造 · powered by <a href="https://rsway.net">rsway.net</a></p>
+    <p style="margin-top:4px;">最後更新：2026-05-01</p>
+  </footer>
+
+  <script>
+    // 初始化 Lucide icons
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>
