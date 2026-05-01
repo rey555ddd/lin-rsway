@@ -1,0 +1,7 @@
+name = "lin-rsway"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "LIN_RSWAY_LOTTERY"
+id = "7fc82c27324e417eb53ac2cd0cbbe279"

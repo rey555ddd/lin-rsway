@@ -1592,7 +1592,7 @@
       <a href="#vote"><i data-lucide="vote" width="13" height="13"></i>投票</a>
       <a href="#members"><i data-lucide="users" width="13" height="13"></i>成員名單</a>
       <a href="#boss"><i data-lucide="sword" width="13" height="13"></i>分寶</a>
-      <a href="#gacha"><i data-lucide="gift" width="13" height="13"></i>扭蛋</a>
+      <a href="/lottery.html"><i data-lucide="gift" width="13" height="13"></i>抽獎</a>
       <a href="#trade"><i data-lucide="arrow-left-right" width="13" height="13"></i>交易</a>
     </div>
   </nav>
@@ -1663,10 +1663,10 @@
         <div class="fc-label">交易留言板</div>
         <div class="fc-sub">收購 / 出售</div>
       </a>
-      <a class="feature-card" href="#gacha">
+      <a class="feature-card" href="/lottery.html">
         <div class="fc-icon"><i data-lucide="gift" width="20" height="20"></i></div>
-        <div class="fc-label">幸運扭蛋</div>
-        <div class="fc-sub">柴犬抽獎機</div>
+        <div class="fc-label">抽獎活動</div>
+        <div class="fc-sub">建活動 → 分享連結</div>
       </a>
     </div>
 
@@ -1767,90 +1767,30 @@
       </div>
     </section>
 
-    <!-- ===== SECTION：幸運扭蛋抽獎機 ===== -->
+    <!-- ===== SECTION：抽獎活動 ===== -->
     <section id="gacha">
       <div class="section-header">
-        <h2><i data-lucide="gift" width="17" height="17"></i>幸運扭蛋（柴犬抽獎機）</h2>
+        <h2><i data-lucide="gift" width="17" height="17"></i>抽獎活動</h2>
         <div class="section-line"></div>
       </div>
 
-      <div class="card">
-
-        <!-- 設定區 -->
-        <div class="gacha-setup">
-          <div>
-            <div class="gacha-setup-label">
-              <i data-lucide="award" width="14" height="14"></i>
-              獎項清單
-            </div>
-            <div class="prize-list" id="prizeList">
-              <div class="prize-row">
-                <input type="text" placeholder="獎品名稱" value="紅水">
-                <span class="prize-row-label">×</span>
-                <input type="number" min="1" value="3">
-                <button class="btn-remove-prize" onclick="removePrize(this)" title="刪除"><i data-lucide="x" width="12" height="12"></i></button>
-              </div>
-              <div class="prize-row">
-                <input type="text" placeholder="獎品名稱" value="火龍劍">
-                <span class="prize-row-label">×</span>
-                <input type="number" min="1" value="1">
-                <button class="btn-remove-prize" onclick="removePrize(this)" title="刪除"><i data-lucide="x" width="12" height="12"></i></button>
-              </div>
-              <div class="prize-row">
-                <input type="text" placeholder="獎品名稱" value="藥水">
-                <span class="prize-row-label">×</span>
-                <input type="number" min="1" value="10">
-                <button class="btn-remove-prize" onclick="removePrize(this)" title="刪除"><i data-lucide="x" width="12" height="12"></i></button>
-              </div>
-            </div>
-            <button class="btn-add-prize" onclick="addPrize()">
-              <i data-lucide="plus" width="12" height="12"></i> 新增獎項
-            </button>
+      <a href="/lottery.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="card" style="display:flex;gap:20px;align-items:center;cursor:pointer;transition:box-shadow .15s,transform .15s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(245,166,35,.18)';this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='';this.style.transform='';">
+          <div style="flex:0 0 auto;width:96px;height:96px;display:flex;align-items:center;justify-content:center;">
+            <img src="gacha-machine.png" alt="扭蛋機" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(245,166,35,.25));">
           </div>
-
-          <div>
-            <div class="gacha-setup-label">
-              <i data-lucide="users" width="14" height="14"></i>
-              報名者名單（每行一個角色名）
+          <div style="flex:1;">
+            <div style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:4px;">建立抽獎活動 →</div>
+            <div style="font-size:13px;color:var(--text-sm);line-height:1.6;">
+              主辦方建活動拿分享連結 · 朋友點連結填名字加入 · 看獎項清單 · 你按密碼開抽<br>
+              <span style="color:var(--text-xs);font-size:12px;">資料存雲端、跨裝置同步</span>
             </div>
-            <textarea class="entrant-textarea" id="entrantList" placeholder="角色 A&#10;角色 B&#10;角色 C&#10;...（每行一個）">角色 A
-角色 B
-角色 C
-角色 D
-角色 E</textarea>
+          </div>
+          <div style="flex:0 0 auto;color:var(--primary);">
+            <i data-lucide="arrow-right" width="20" height="20"></i>
           </div>
         </div>
-
-        <!-- 3D 扭蛋機 -->
-        <div class="gacha-stage">
-          <div class="gacha-img-wrap" id="gachaImg" onclick="startDraw()">
-            <img src="gacha-machine.png" alt="柴犬扭蛋機">
-            <div class="gacha-tap-hint"><i data-lucide="hand" width="12" height="12"></i> 點我開抽</div>
-          </div>
-        </div>
-
-        <!-- 揭曉區 -->
-        <div class="reveal-area" id="revealArea"></div>
-
-        <!-- 結果動作列 -->
-        <div class="gacha-results" id="gachaResults" style="display:none;">
-          <div id="warningMsg" style="display:none;" class="result-warning">
-            <i data-lucide="alert-triangle" width="14" height="14"></i>
-            <span id="warningText"></span>
-          </div>
-          <div class="gacha-action-row">
-            <button class="btn-copy-result" onclick="copyResults()">
-              <i data-lucide="clipboard-copy" width="14" height="14"></i>
-              複製結果
-            </button>
-            <button class="btn-reset-draw" onclick="resetDraw()">
-              <i data-lucide="rotate-ccw" width="14" height="14"></i>
-              重新抽獎
-            </button>
-          </div>
-        </div>
-
-      </div>
+      </a>
     </section>
 
     <!-- ===== SECTION：交易留言板 ===== -->

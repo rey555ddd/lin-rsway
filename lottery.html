@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柴犬聯盟・抽獎活動</title>
+<meta name="description" content="柴犬聯盟血盟抽獎工具——主辦方建活動、成員填名字加入抽獎、按下扭蛋機自動開抽。">
+<meta property="og:title" content="柴犬聯盟・抽獎活動">
+<meta property="og:description" content="點連結填名字加入抽獎、扭蛋一顆顆掉出揭曉得獎者">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  :root {
+    --bg:         #ffffff;
+    --bg-alt:     #fafafa;
+    --bg-hover:   #f3f4f6;
+    --border:     #e5e7eb;
+    --border-md:  #d1d5db;
+
+    --primary:    #f5a623;
+    --primary-dk: #e0931a;
+    --primary-lt: #fff7ea;
+
+    --accent:     #4a90e2;
+    --accent-dk:  #3578cc;
+    --accent-lt:  #eff6ff;
+
+    --text:       #111827;
+    --text-md:    #374151;
+    --text-sm:    #6b7280;
+    --text-xs:    #9ca3af;
+
+    --green:      #10b981;
+    --green-lt:   #ecfdf5;
+    --red:        #ef4444;
+    --red-lt:     #fef2f2;
+
+    --shadow-sm:  0 1px 3px rgba(0,0,0,.08);
+    --shadow-md:  0 4px 12px rgba(0,0,0,.08);
+    --shadow-lg:  0 8px 24px rgba(0,0,0,.1);
+
+    --radius-sm:  8px;
+    --radius-md:  12px;
+    --radius-lg:  16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-alt);
+    color: var(--text);
+    font-family: 'Noto Sans TC', 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-dk); text-decoration: underline; }
+
+  /* topbar */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 0;
+    font-size: 1rem; font-weight: 700; color: var(--text);
+    text-decoration: none;
+  }
+  .nav-brand:hover { text-decoration: none; color: var(--text); }
+  .brand-dog {
+    width: 32px; height: 32px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brand-dog i { color: #fff; }
+  .topbar-right { display: flex; gap: 16px; font-size: 13px; }
+  .topbar-right a { color: var(--text-sm); display: flex; align-items: center; gap: 4px; }
+  .topbar-right a:hover { color: var(--primary); }
+
+  /* layout */
+  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 28px;
+    padding: 32px 16px 16px;
+  }
+  .kicker {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--primary-dk);
+    background: var(--primary-lt);
+    border: 1px solid var(--primary);
+    border-radius: 100px;
+    padding: 4px 14px;
+    letter-spacing: .12em;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: clamp(24px, 5vw, 34px);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .hero h1 .accent { color: var(--primary); }
+  .hero p { color: var(--text-sm); font-size: 14px; }
+
+  /* card */
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+  }
+  .card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+  }
+  .card h2 i { color: var(--primary); }
+
+  /* form */
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--text-md); margin: 16px 0 6px; }
+  label:first-child { margin-top: 0; }
+  input[type=text], input[type=number], input[type=password] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: border-color .15s;
+  }
+  input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(245,166,35,.1); }
+  input.shake { animation: shake .4s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }
+
+  .prize-row { display: grid; grid-template-columns: 1fr 90px 38px; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .prize-row input { padding: 8px 10px; font-size: 13px; }
+  .prize-row .del {
+    background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    height: 36px; cursor: pointer; color: var(--text-xs);
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+  }
+  .prize-row .del:hover { background: var(--red-lt); color: var(--red); border-color: var(--red); }
+  .add-prize {
+    background: transparent;
+    border: 1.5px dashed var(--border-md);
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 12px;
+    color: var(--text-sm);
+    cursor: pointer;
+    margin-top: 4px;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: all .15s;
+  }
+  .add-prize:hover { border-color: var(--primary); color: var(--primary); }
+
+  .btn-primary {
+    background: var(--primary); color: #fff;
+    border: none;
+    padding: 13px 24px;
+    font-size: 15px; font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    width: 100%;
+    margin-top: 22px;
+    font-family: 'Noto Sans TC', sans-serif;
+    box-shadow: 0 4px 16px rgba(245,166,35,.3);
+    transition: all .15s;
+  }
+  .btn-primary:hover:not(:disabled) { background: var(--primary-dk); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,166,35,.4); }
+  .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+
+  .btn-secondary {
+    background: var(--bg);
+    color: var(--text-sm);
+    border: 1.5px solid var(--border);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: all .15s;
+  }
+  .btn-secondary:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .alert {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    margin-top: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .alert i { flex-shrink: 0; margin-top: 2px; }
+  .alert.ok  { background: var(--green-lt); color: var(--green); border: 1px solid #6ee7b7; }
+  .alert.err { background: var(--red-lt);   color: var(--red);   border: 1px solid #fca5a5; }
+  .alert.info{ background: var(--accent-lt);color: var(--accent-dk); border: 1px solid #93c5fd; }
+
+  /* share box */
+  .share-box {
+    margin-top: 20px;
+    padding: 14px;
+    background: var(--bg-alt);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+  .share-box .label { font-size: 12px; color: var(--text-xs); margin-bottom: 6px; font-weight: 600; }
+  .share-link {
+    display: flex; gap: 8px; align-items: center;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+  }
+  .share-link input {
+    border: none; background: transparent; padding: 0;
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--text-md);
+  }
+  .share-link input:focus { box-shadow: none; }
+
+  /* prize list display */
+  .prize-list { list-style: none; margin: 8px 0 16px; }
+  .prize-list li {
+    padding: 10px 14px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  .prize-list li .count { color: var(--primary); font-weight: 700; }
+
+  /* registrants tags */
+  .reg-list {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 10px 0;
+  }
+  .reg-tag {
+    background: var(--accent-lt);
+    color: var(--accent-dk);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* 3D 扭蛋機 */
+  .gacha-area { text-align: center; padding: 18px 0; }
+  .gacha-img-wrap {
+    width: 240px; height: 240px;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: transform .15s;
+    filter: drop-shadow(0 14px 28px rgba(245,166,35,.3));
+  }
+  .gacha-img-wrap:hover { transform: scale(1.04); }
+  .gacha-img-wrap:active { transform: scale(.97); }
+  .gacha-img-wrap.spinning { animation: gachaShake .3s infinite; pointer-events: none; }
+  @keyframes gachaShake {
+    0%,100% { transform: translateX(0) rotate(0); }
+    25%     { transform: translateX(-4px) rotate(-1.8deg); }
+    75%     { transform: translateX(4px) rotate(1.8deg); }
+  }
+  .gacha-img-wrap img { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .gacha-tap-hint {
+    position: absolute;
+    bottom: -4px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--text);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(0,0,0,.18);
+    pointer-events: none;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .gacha-img-wrap.spinning .gacha-tap-hint { display: none; }
+
+  .reveal-area {
+    margin-top: 24px;
+    min-height: 50px;
+    display: flex; flex-direction: column; gap: 14px; align-items: center;
+  }
+  .capsule {
+    position: relative;
+    width: 84px; height: 84px;
+    animation: capsuleDrop .7s cubic-bezier(.5,1.6,.4,1);
+  }
+  @keyframes capsuleDrop {
+    0%   { transform: translateY(-260px) scale(.3); opacity: 0; }
+    60%  { transform: translateY(18px) scale(1); opacity: 1; }
+    80%  { transform: translateY(-8px) scale(1); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  .capsule-half {
+    position: absolute;
+    width: 84px; height: 42px;
+    transition: transform .5s cubic-bezier(.5,0,.5,1);
+    box-shadow: inset -3px -3px 7px rgba(0,0,0,.18);
+  }
+  .capsule-half.top {
+    top: 0;
+    border-radius: 42px 42px 0 0;
+    background: linear-gradient(180deg, var(--primary), var(--primary-dk));
+  }
+  .capsule-half.bottom {
+    bottom: 0;
+    border-radius: 0 0 42px 42px;
+    background: linear-gradient(0deg, var(--accent), var(--accent-dk));
+  }
+  .capsule.opened .capsule-half.top    { transform: translate(-26px,-44px) rotate(-30deg); }
+  .capsule.opened .capsule-half.bottom { transform: translate(26px,44px) rotate(30deg); opacity: .55; }
+
+  .prize-paper {
+    background: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 14px;
+    padding: 16px 24px;
+    min-width: 240px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(245,166,35,.22);
+    opacity: 0;
+    transform: scale(.5);
+    transition: all .5s cubic-bezier(.4,1.5,.4,1);
+    position: relative;
+  }
+  .prize-paper.show { opacity: 1; transform: scale(1); }
+  .prize-paper::before, .prize-paper::after {
+    content: ""; position: absolute;
+    top: -1px; width: 12px; height: 6px;
+    background: var(--primary);
+    border-radius: 0 0 6px 6px;
+  }
+  .prize-paper::before { left: 28px; }
+  .prize-paper::after  { right: 28px; }
+  .prize-paper .prize-tag {
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: var(--primary-dk);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .prize-paper .prize-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .prize-paper .winner {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 8px 0 2px;
+    border-top: 1px dashed var(--border);
+  }
+  .prize-paper .winner.empty { color: var(--text-xs); font-size: 1rem; font-weight: 500; }
+
+  /* mode visibility */
+  .mode { display: none; }
+  .mode.active { display: block; }
+
+  footer {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--text-xs);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    background: #fff;
+    margin-top: 40px;
+  }
+  footer a { color: var(--primary); }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 0 16px; }
+    .wrap { padding: 20px 14px 60px; }
+    .card { padding: 20px; }
+    .gacha-img-wrap { width: 200px; height: 200px; }
+    .prize-row { grid-template-columns: 1fr 70px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="nav-brand" href="/">
+    <div class="brand-dog"><i data-lucide="dog" width="17" height="17"></i></div>
+    柴犬聯盟
+  </a>
+  <div class="topbar-right">
+    <a href="/"><i data-lucide="home" width="13" height="13"></i> 回首頁</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">LOTTERY</span>
+    <h1>柴犬聯盟・<span class="accent">抽獎活動</span></h1>
+    <p id="heroDesc">主辦方建活動 · 成員點連結填名字 · 扭蛋機自動開抽</p>
+  </div>
+
+  <!-- ===== Mode 1：建活動 ===== -->
+  <div class="mode" id="mode-create">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+        <h2 style="margin:0"><i data-lucide="party-popper" width="18" height="18"></i> 建立抽獎活動</h2>
+        <button type="button" class="btn-secondary" onclick="fillExample()">
+          <i data-lucide="sparkles" width="13" height="13"></i> 一鍵範例
+        </button>
+      </div>
+
+      <label>活動名稱</label>
+      <input type="text" id="c-name" placeholder="例：五月感謝祭、入盟禮、月底分紅" maxlength="80">
+
+      <label>獎項清單（標題 / 數量）</label>
+      <div id="c-prizes"></div>
+      <button type="button" class="add-prize" onclick="addPrizeRow()">
+        <i data-lucide="plus" width="12" height="12"></i> 多加一個獎項
+      </button>
+
+      <label>主辦方密碼（4 碼以上、開抽時要用）</label>
+      <input type="password" id="c-pin" placeholder="自己設一組好記的、例如 3690" maxlength="20">
+
+      <button class="btn-primary" id="c-submit" onclick="createLottery()">
+        建立活動 → 拿到分享連結
+      </button>
+      <div id="c-msg"></div>
+    </div>
+  </div>
+
+  <!-- ===== Mode 2：報名（公開）===== -->
+  <div class="mode" id="mode-register">
+    <div class="card">
+      <h2><i data-lucide="ticket" width="18" height="18"></i> <span id="r-event-name">活動報名</span></h2>
+      <ul class="prize-list" id="r-prizes"></ul>
+      <p style="font-size:13px;color:var(--text-sm);margin-bottom:14px;">
+        目前已報名 <strong id="r-count" style="color:var(--primary);">0</strong> 人
+      </p>
+
+      <div id="r-form">
+        <label>填你的 LINE 名加入抽獎</label>
+        <input type="text" id="r-name" placeholder="LINE 暱稱 或 遊戲 ID" maxlength="30">
+        <button class="btn-primary" onclick="register()">加入抽獎</button>
+        <div id="r-msg"></div>
+      </div>
+
+      <div id="r-done" style="display:none">
+        <div class="alert ok">
+          <i data-lucide="check-circle" width="16" height="16"></i>
+          你已報名成功、等主辦方按下扭蛋機開抽 ✨
+        </div>
+      </div>
+
+      <div id="r-drawn" style="display:none">
+        <div class="alert info">
+          <i data-lucide="trophy" width="16" height="16"></i>
+          已開抽完成！<a href="#" id="r-result-link">點這裡看結果</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Mode 3：管理 ===== -->
+  <div class="mode" id="mode-manage">
+    <div class="card">
+      <h2><i data-lucide="crown" width="18" height="18"></i> <span id="m-event-name">活動管理</span></h2>
+
+      <div id="m-pin-gate">
+        <label>輸入主辦方密碼</label>
+        <input type="password" id="m-pin" placeholder="•••••" maxlength="20">
+        <button class="btn-primary" onclick="unlockManage()">解鎖管理</button>
+        <div id="m-pin-msg"></div>
+      </div>
+
+      <div id="m-content" style="display:none">
+        <ul class="prize-list" id="m-prizes"></ul>
+
+        <div class="share-box">
+          <div class="label"><i data-lucide="megaphone" width="11" height="11"></i> 把這個連結分享給報名者：</div>
+          <div class="share-link">
+            <input type="text" id="m-share-link" readonly>
+            <button class="btn-secondary" onclick="copyLink('m-share-link')">複製</button>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;font-size:1rem;display:flex;align-items:center;gap:6px;">
+          <i data-lucide="users" width="14" height="14" style="color:var(--accent);"></i>
+          已報名（<span id="m-count">0</span>）
+        </h3>
+        <div class="reg-list" id="m-reglist"></div>
+
+        <div class="gacha-area" id="m-gacha-wrap">
+          <div class="gacha-img-wrap" id="gacha" onclick="startDraw()">
+            <img src="gacha-machine.png" alt="柴犬扭蛋機">
+            <div class="gacha-tap-hint"><i data-lucide="hand" width="12" height="12"></i> 點我開抽</div>
+          </div>
+        </div>
+
+        <div class="reveal-area" id="reveal-area"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Mode 4：結果（公開）===== -->
+  <div class="mode" id="mode-result">
+    <div class="card">
+      <h2><i data-lucide="trophy" width="18" height="18"></i> <span id="x-event-name">抽獎結果</span></h2>
+      <div id="x-list"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 CHAI INUS · 柴犬聯盟 · <a href="/">回血盟主站</a>
+</footer>
+
+<script>
+lucide.createIcons();
+
+const API = '/api/lottery';
+const params = new URLSearchParams(location.search);
+const lotteryId = params.get('id');
+const isManage  = params.get('manage') === '1';
+const isResult  = params.get('result') === '1';
+
+function showMode(name) {
+  document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
+  document.getElementById('mode-' + name).classList.add('active');
+}
+
+// ===== 建立模式 =====
+function fillExample() {
+  document.getElementById('c-name').value = '柴犬聯盟・五月感謝祭';
+  document.getElementById('c-pin').value = '3690';
+  document.getElementById('c-prizes').innerHTML = '';
+  addPrizeRow('頭獎・紅水 ×3', 1);
+  addPrizeRow('二獎・強化石 ×1', 2);
+  addPrizeRow('安慰獎・藥水包', 5);
+}
+
+function addPrizeRow(title = '', count = 1) {
+  const wrap = document.getElementById('c-prizes');
+  const row = document.createElement('div');
+  row.className = 'prize-row';
+  row.innerHTML = `
+    <input type="text" class="p-title" placeholder="獎項名稱（例：頭獎・紅水 ×3）" value="${escapeAttr(title)}" maxlength="60">
+    <input type="number" class="p-count" min="1" value="${count}" placeholder="名額">
+    <button class="del" type="button" onclick="this.parentElement.remove()" title="刪除"><i data-lucide="x" width="12" height="12"></i></button>
+  `;
+  wrap.appendChild(row);
+  lucide.createIcons({ nodes: [row] });
+}
+
+async function createLottery() {
+  const btn = document.getElementById('c-submit');
+  const msg = document.getElementById('c-msg');
+  msg.innerHTML = '';
+  const name = document.getElementById('c-name').value.trim();
+  const pin  = document.getElementById('c-pin').value.trim();
+  if (!name) return msg.innerHTML = alertHtml('err','請填活動名稱');
+  if (pin.length < 4) return msg.innerHTML = alertHtml('err','密碼至少 4 碼');
+
+  const prizes = [...document.querySelectorAll('.prize-row')].map(r => ({
+    title: r.querySelector('.p-title').value.trim(),
+    count: parseInt(r.querySelector('.p-count').value) || 0,
+  })).filter(p => p.title && p.count > 0);
+  if (prizes.length === 0) return msg.innerHTML = alertHtml('err','至少設一個獎項');
+
+  btn.disabled = true; btn.textContent = '建立中…';
+  try {
+    const r = await fetch(`${API}?action=create`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, pin, prizes }),
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || '建立失敗');
+    localStorage.setItem(`chaiinu_lot:${data.id}:owner`, data.ownerToken);
+    location.href = `?id=${data.id}&manage=1`;
+  } catch (e) {
+    msg.innerHTML = alertHtml('err', e.message || '網路錯誤');
+    btn.disabled = false;
+    btn.textContent = '建立活動 → 拿到分享連結';
+  }
+}
+
+// ===== 報名模式 =====
+async function loadInfoForRegister() {
+  try {
+    const r = await fetch(`${API}?action=info&id=${lotteryId}`);
+    const data = await r.json();
+    if (!r.ok) return showError(data.error || '找不到活動');
+    const info = data.info;
+    document.getElementById('r-event-name').textContent = info.name;
+    document.getElementById('heroDesc').textContent = '填你的名字加入這場抽獎';
+    document.getElementById('r-prizes').innerHTML = info.prizes
+      .map(p => `<li><span>${escapeHtml(p.title)}</span><span class="count">${p.count} 名</span></li>`).join('');
+    document.getElementById('r-count').textContent = info.registrantCount;
+
+    if (info.drawn) {
+      document.getElementById('r-form').style.display = 'none';
+      document.getElementById('r-drawn').style.display = 'block';
+      document.getElementById('r-result-link').href = `?id=${lotteryId}&result=1`;
+      return;
+    }
+    if (localStorage.getItem(`chaiinu_lot:${lotteryId}:reg`)) {
+      document.getElementById('r-form').style.display = 'none';
+      document.getElementById('r-done').style.display = 'block';
+    }
+  } catch (e) {
+    showError('載入失敗：' + (e.message || ''));
+  }
+}
+
+async function register() {
+  const name = document.getElementById('r-name').value.trim();
+  const msg = document.getElementById('r-msg');
+  msg.innerHTML = '';
+  if (!name) return msg.innerHTML = alertHtml('err','填名字');
+  try {
+    const r = await fetch(`${API}?action=register&id=${lotteryId}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name }),
+    });
+    const data = await r.json();
+    if (!r.ok) {
+      msg.innerHTML = alertHtml('err', data.error || '報名失敗');
+      const inp = document.getElementById('r-name');
+      inp.classList.add('shake'); setTimeout(()=> inp.classList.remove('shake'), 500);
+      return;
+    }
+    localStorage.setItem(`chaiinu_lot:${lotteryId}:reg`, name);
+    document.getElementById('r-form').style.display = 'none';
+    document.getElementById('r-done').style.display = 'block';
+  } catch (e) {
+    msg.innerHTML = alertHtml('err', '網路錯誤');
+  }
+}
+
+// ===== 管理模式 =====
+let manageData = null;
+
+async function unlockManage(silent) {
+  const pin = silent ? null : document.getElementById('m-pin').value.trim();
+  const msg = document.getElementById('m-pin-msg');
+  if (!silent) msg.innerHTML = '';
+  const stored = localStorage.getItem(`chaiinu_lot:${lotteryId}:owner`);
+  const body = stored ? { ownerToken: stored } : { pin };
+  if (!stored && (!pin || pin.length < 4)) {
+    if (!silent) msg.innerHTML = alertHtml('err','填密碼');
+    return;
+  }
+  try {
+    const r = await fetch(`${API}?action=manage&id=${lotteryId}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await r.json();
+    if (!r.ok) {
+      if (!silent) msg.innerHTML = alertHtml('err', data.error || '密碼錯誤');
+      // 若 token 失效（活動被刪重建）就清掉、要求重輸密碼
+      if (stored && r.status === 401) localStorage.removeItem(`chaiinu_lot:${lotteryId}:owner`);
+      return;
+    }
+    manageData = data.info;
+    if (!stored && data.info.ownerToken) {
+      localStorage.setItem(`chaiinu_lot:${lotteryId}:owner`, data.info.ownerToken);
+    }
+    renderManage();
+  } catch (e) {
+    if (!silent) msg.innerHTML = alertHtml('err','網路錯誤');
+  }
+}
+
+function renderManage() {
+  document.getElementById('m-pin-gate').style.display = 'none';
+  document.getElementById('m-content').style.display = 'block';
+  document.getElementById('m-event-name').textContent = manageData.name;
+  document.getElementById('heroDesc').textContent = '主辦方管理頁 · 把分享連結傳給朋友';
+  document.getElementById('m-prizes').innerHTML = manageData.prizes
+    .map(p => `<li><span>${escapeHtml(p.title)}</span><span class="count">${p.count} 名</span></li>`).join('');
+  document.getElementById('m-share-link').value = location.origin + `/lottery.html?id=${lotteryId}`;
+  document.getElementById('m-count').textContent = manageData.registrants.length;
+  document.getElementById('m-reglist').innerHTML = manageData.registrants.length
+    ? manageData.registrants.map(n => `<span class="reg-tag">${escapeHtml(n)}</span>`).join('')
+    : '<span style="color:var(--text-xs);font-size:13px;">還沒人報名</span>';
+
+  if (manageData.draws.length > 0) {
+    document.getElementById('m-gacha-wrap').style.display = 'none';
+    showResults(manageData.draws);
+  }
+  lucide.createIcons();
+}
+
+async function startDraw() {
+  if (!manageData || manageData.registrants.length === 0) {
+    alert('還沒人報名！把分享連結再傳一次');
+    return;
+  }
+  const totalNeed = manageData.prizes.reduce((s, p) => s + p.count, 0);
+  if (manageData.registrants.length < totalNeed) {
+    if (!confirm(`報名 ${manageData.registrants.length} 人 < 獎項 ${totalNeed} 名、依然要抽？（多餘獎項會空著）`)) return;
+  }
+  if (!confirm('確定開抽？抽完不能重抽！')) return;
+
+  const gacha = document.getElementById('gacha');
+  if (gacha._busy) return;
+  gacha._busy = true;
+  gacha.classList.add('spinning');
+
+  setTimeout(async () => {
+    try {
+      const stored = localStorage.getItem(`chaiinu_lot:${lotteryId}:owner`);
+      const body = stored ? { ownerToken: stored } : {};
+      const r = await fetch(`${API}?action=draw&id=${lotteryId}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await r.json();
+      gacha.classList.remove('spinning');
+      if (!r.ok) {
+        alert('抽獎失敗：' + (data.error || ''));
+        gacha._busy = false;
+        return;
+      }
+      document.getElementById('m-gacha-wrap').style.display = 'none';
+      showResults(data.draws);
+    } catch (e) {
+      gacha.classList.remove('spinning');
+      gacha._busy = false;
+      alert('網路錯誤');
+    }
+  }, 1500);
+}
+
+function showResults(draws) {
+  const area = document.getElementById('reveal-area');
+  area.innerHTML = '';
+  draws.forEach((d, i) => {
+    setTimeout(() => {
+      const cap = document.createElement('div');
+      cap.className = 'capsule';
+      cap.innerHTML = `<div class="capsule-half top"></div><div class="capsule-half bottom"></div>`;
+      area.appendChild(cap);
+
+      setTimeout(() => {
+        cap.classList.add('opened');
+        const paper = document.createElement('div');
+        paper.className = 'prize-paper';
+        const winnerHtml = d.winner
+          ? `<div class="winner">${escapeHtml(d.winner)}</div>`
+          : `<div class="winner empty">流標 · 報名者不足</div>`;
+        paper.innerHTML = `
+          <div class="prize-tag">PRIZE ${String(i + 1).padStart(2, '0')}</div>
+          <div class="prize-title">${escapeHtml(d.prize)}</div>
+          ${winnerHtml}
+        `;
+        cap.parentNode.insertBefore(paper, cap.nextSibling);
+        cap.style.display = 'none';
+        setTimeout(() => paper.classList.add('show'), 50);
+      }, 600);
+    }, i * 1100);
+  });
+}
+
+// ===== 結果模式 =====
+async function loadResult() {
+  try {
+    const r = await fetch(`${API}?action=result&id=${lotteryId}`);
+    const data = await r.json();
+    if (!r.ok) return showError(data.error || '找不到');
+    document.getElementById('x-event-name').textContent = data.name + ' · 抽獎結果';
+    document.getElementById('heroDesc').textContent = '抽獎結果公開頁';
+    if (!data.drawn) {
+      document.getElementById('x-list').innerHTML = alertHtml('info','尚未開抽、再等等～');
+      return;
+    }
+    document.getElementById('x-list').innerHTML = data.draws.map((d, i) => {
+      const w = d.winner
+        ? `<div class="winner">${escapeHtml(d.winner)}</div>`
+        : `<div class="winner empty">流標 · 報名者不足</div>`;
+      return `
+        <div class="prize-paper show" style="margin:14px auto;display:block;">
+          <div class="prize-tag">PRIZE ${String(i + 1).padStart(2, '0')}</div>
+          <div class="prize-title">${escapeHtml(d.prize)}</div>
+          ${w}
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    showError('載入失敗');
+  }
+}
+
+// ===== 工具 =====
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+function escapeAttr(s) { return escapeHtml(s); }
+function alertHtml(kind, txt) {
+  const icon = kind === 'err' ? 'alert-circle' : (kind === 'ok' ? 'check-circle' : 'info');
+  setTimeout(() => lucide.createIcons(), 30);
+  return `<div class="alert ${kind}"><i data-lucide="${icon}" width="14" height="14"></i><span>${escapeHtml(txt)}</span></div>`;
+}
+function copyLink(elId) {
+  const el = document.getElementById(elId);
+  el.select();
+  navigator.clipboard.writeText(el.value).then(() => {
+    const btn = el.nextElementSibling;
+    const old = btn.textContent;
+    btn.textContent = '✓ 已複製';
+    setTimeout(() => btn.textContent = old, 1500);
+  });
+}
+function showError(t) {
+  document.body.innerHTML = `
+    <div class="wrap" style="padding-top:60px;">
+      <div class="card" style="text-align:center;">
+        <h2 style="justify-content:center;"><i data-lucide="alert-triangle" width="20" height="20"></i> ${escapeHtml(t)}</h2>
+        <p style="margin:20px 0;color:var(--text-sm);">這個活動連結可能已過期或被刪除</p>
+        <a href="/lottery.html" class="btn-primary" style="display:inline-block;text-decoration:none;text-align:center;width:auto;padding:12px 28px;">建立新抽獎</a>
+      </div>
+    </div>`;
+  lucide.createIcons();
+}
+
+// ===== 路由 =====
+if (!lotteryId) {
+  showMode('create');
+  addPrizeRow('頭獎', 1);
+  addPrizeRow('二獎', 3);
+} else if (isResult) {
+  showMode('result');
+  loadResult();
+} else if (isManage) {
+  showMode('manage');
+  if (localStorage.getItem(`chaiinu_lot:${lotteryId}:owner`)) {
+    unlockManage(true);
+  }
+} else {
+  showMode('register');
+  loadInfoForRegister();
+}
+</script>
+
+</body>
+</html>
