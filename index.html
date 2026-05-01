@@ -1310,6 +1310,222 @@
     }
     .btn-reset-draw:hover { border-color: var(--border-md); background: var(--bg-alt); }
 
+    /* ===== 投票所 ===== */
+    .vote-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .vote-toolbar-info { font-size: 12px; color: var(--text-xs); }
+    .btn-add-vote {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(74,144,226,.25);
+      transition: all .15s;
+    }
+    .btn-add-vote:hover { background: var(--accent-dk); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(74,144,226,.35); }
+
+    .vote-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .vote-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      transition: box-shadow .15s;
+    }
+    .vote-card:hover { box-shadow: var(--shadow-sm); }
+    .vote-card.closed { border-left-color: var(--text-xs); opacity: .85; }
+
+    .vote-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .vote-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .vote-card-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .vote-action-btn {
+      background: none;
+      border: none;
+      color: var(--text-xs);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      transition: all .15s;
+    }
+    .vote-action-btn:hover { background: var(--bg-alt); color: var(--text-md); }
+    .vote-action-btn.danger:hover { background: var(--red-lt); color: var(--red); }
+
+    .vote-meta {
+      font-size: 11px;
+      color: var(--text-xs);
+      margin-bottom: 14px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .vote-meta .deadline-active { color: var(--green); font-weight: 600; }
+    .vote-meta .deadline-closed { color: var(--red); font-weight: 600; }
+
+    .vote-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+    .vote-option {
+      position: relative;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all .15s;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .vote-option:hover:not(.disabled) { border-color: var(--accent); background: var(--accent-lt); }
+    .vote-option.disabled { cursor: default; }
+    .vote-option.my-pick {
+      border-color: var(--accent);
+      background: var(--accent-lt);
+      box-shadow: 0 0 0 2px rgba(74,144,226,.15);
+    }
+
+    .vote-option-bar {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(74,144,226,.12) 0%, rgba(74,144,226,.06) 100%);
+      transform-origin: left;
+      transition: width .4s cubic-bezier(.4,1.4,.4,1);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .vote-option.my-pick .vote-option-bar {
+      background: linear-gradient(90deg, rgba(74,144,226,.22) 0%, rgba(74,144,226,.12) 100%);
+    }
+
+    .vote-option-row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .vote-option-text {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .vote-option-count {
+      font-size: 12px;
+      color: var(--text-sm);
+      font-weight: 600;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .vote-option-count .pct { color: var(--accent); font-weight: 700; }
+    .vote-option-count .my-tick { color: var(--accent); }
+
+    .vote-voters {
+      font-size: 11px;
+      color: var(--text-xs);
+      margin-top: 4px;
+      padding-left: 2px;
+      line-height: 1.5;
+    }
+
+    .vote-footer {
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .vote-totals { font-size: 12px; color: var(--text-sm); }
+    .vote-totals strong { color: var(--text); }
+
+    .vote-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-xs);
+      font-size: 13px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+    }
+    .vote-empty i { display: block; margin: 0 auto 10px; opacity: .4; }
+
+    /* modal 內動態 option list（共用 modal-input 已定義）*/
+    .vote-opt-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .vote-opt-row input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: 'Noto Sans TC', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+    }
+    .vote-opt-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(74,144,226,.1); }
+    .vote-opt-del {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      padding: 6px;
+      color: var(--text-xs);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+    }
+    .vote-opt-del:hover { border-color: var(--red); color: var(--red); }
+    .btn-add-vote-opt {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: transparent;
+      border: 1.5px dashed var(--border-md);
+      border-radius: var(--radius-sm);
+      color: var(--text-sm);
+      cursor: pointer;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-family: 'Noto Sans TC', sans-serif;
+      transition: all .15s;
+      margin-top: 4px;
+    }
+    .btn-add-vote-opt:hover { border-color: var(--accent); color: var(--accent); }
+
     /* ===== 資訊提示條 ===== */
     .info-note {
       margin-top: 14px;
@@ -1373,7 +1589,8 @@
     </div>
     <div class="nav-links">
       <a href="#announce"><i data-lucide="megaphone" width="13" height="13"></i>公告</a>
-      <a href="#members"><i data-lucide="users" width="13" height="13"></i>花名冊</a>
+      <a href="#vote"><i data-lucide="vote" width="13" height="13"></i>投票</a>
+      <a href="#members"><i data-lucide="users" width="13" height="13"></i>成員名單</a>
       <a href="#boss"><i data-lucide="sword" width="13" height="13"></i>分寶</a>
       <a href="#gacha"><i data-lucide="gift" width="13" height="13"></i>扭蛋</a>
       <a href="#trade"><i data-lucide="arrow-left-right" width="13" height="13"></i>交易</a>
@@ -1428,8 +1645,13 @@
     <div class="feature-cards">
       <a class="feature-card" href="#members">
         <div class="fc-icon"><i data-lucide="users" width="20" height="20"></i></div>
-        <div class="fc-label">成員花名冊</div>
+        <div class="fc-label">成員名單</div>
         <div class="fc-sub">LINE 名 ↔ 遊戲 ID</div>
+      </a>
+      <a class="feature-card" href="#vote">
+        <div class="fc-icon"><i data-lucide="vote" width="20" height="20"></i></div>
+        <div class="fc-label">投票所</div>
+        <div class="fc-sub">盟內事務決議</div>
       </a>
       <a class="feature-card" href="#boss">
         <div class="fc-icon"><i data-lucide="sword" width="20" height="20"></i></div>
@@ -1463,15 +1685,36 @@
       </div>
     </section>
 
-    <!-- ===== SECTION：成員花名冊（Accordion）===== -->
+    <!-- ===== SECTION：投票所 ===== -->
+    <section id="vote">
+      <div class="section-header">
+        <h2><i data-lucide="vote" width="17" height="17"></i>投票所</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="vote-toolbar">
+        <div class="vote-toolbar-info">盟內事務決議 · 一人一票 · 可改票</div>
+        <button class="btn-add-vote" onclick="openVoteModal()">
+          <i data-lucide="plus" width="14" height="14"></i> 發起投票
+        </button>
+      </div>
+
+      <div class="vote-list" id="voteList"></div>
+
+      <div class="info-note" style="margin-top:14px;">
+        <i data-lucide="info" width="13" height="13"></i>
+        資料目前儲存在你的瀏覽器 · v2 將接 Cloudflare KV 跨裝置同步
+      </div>
+    </section>
+
+    <!-- ===== SECTION：成員名單（Accordion）===== -->
     <section id="members">
       <div class="section-header">
-        <h2><i data-lucide="users" width="17" height="17"></i>成員花名冊</h2>
+        <h2><i data-lucide="users" width="17" height="17"></i>成員名單</h2>
         <div class="section-line"></div>
       </div>
       <p style="font-size:12px;color:var(--text-xs);margin-bottom:16px;">
-        LINE 名對照遊戲 ID，防止混淆 ·
-        <span class="pending-tag"><i data-lucide="alert-circle" width="11" height="11"></i> 點擊展開可填資料，儲存到本機</span>
+        LINE 名對照遊戲 ID、防止混淆 · 預設已灌入現役 14 人 · 點擊展開可改自己那張
       </p>
 
       <div class="members-list" id="membersList">
@@ -1691,6 +1934,55 @@
       </div>
     </div>
 
+    <!-- ===== 投票 Modal（發起）===== -->
+    <div class="modal-mask" id="voteModal">
+      <div class="modal-card">
+        <div class="modal-title"><i data-lucide="vote" width="18" height="18"></i> 發起新投票</div>
+
+        <div class="modal-row">
+          <label class="modal-label">投票題目</label>
+          <input type="text" class="modal-input" id="voteTopic" maxlength="80" placeholder="例：下次團戰時間？要不要轉服？">
+        </div>
+
+        <div class="modal-row">
+          <label class="modal-label">選項（至少 2 個）</label>
+          <div id="voteOptList"></div>
+          <button type="button" class="btn-add-vote-opt" onclick="addVoteOptRow()">
+            <i data-lucide="plus" width="12" height="12"></i> 多加一個選項
+          </button>
+        </div>
+
+        <div class="modal-row">
+          <label class="modal-label">截止日期（選填、空白＝不設限）</label>
+          <input type="date" class="modal-input" id="voteDeadline">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-cancel" onclick="closeVoteModal()">取消</button>
+          <button type="button" class="btn-modal-submit" onclick="submitVote()">發起</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 投票 Modal（投票）===== -->
+    <div class="modal-mask" id="castModal">
+      <div class="modal-card">
+        <div class="modal-title"><i data-lucide="user-check" width="18" height="18"></i> 投票確認</div>
+        <div class="modal-row">
+          <div style="font-size:12px;color:var(--text-xs);margin-bottom:6px;">你選的：</div>
+          <div id="castPickPreview" style="padding:10px 14px;background:var(--accent-lt);border-radius:8px;font-weight:600;color:var(--accent-dk);"></div>
+        </div>
+        <div class="modal-row">
+          <label class="modal-label">你的 LINE 名（識別用）</label>
+          <input type="text" class="modal-input" id="castVoter" maxlength="30" placeholder="LINE 暱稱（同名者會覆蓋上一票）">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-cancel" onclick="closeCastModal()">取消</button>
+          <button type="button" class="btn-modal-submit" onclick="confirmCast()">投下這一票</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -1710,24 +2002,102 @@
 
     const JOB_LIST = ['王族', '騎士', '妖精', '法師', '黑暗妖精'];
 
-    // 載入 localStorage 資料
+    // 預設名單版本（升版時改這個、會強制覆蓋舊瀏覽器資料）
+    const MEMBERS_VERSION = 2;
+
+    // 載入 localStorage 資料（檢查版本、舊版自動丟掉用新預設）
     function loadMembers() {
       try {
+        const v = parseInt(localStorage.getItem('chaiinu_members_v') || '0');
+        if (v < MEMBERS_VERSION) return null; // 強制吃新預設
         return JSON.parse(localStorage.getItem('chaiinu_members') || 'null');
       } catch(e) { return null; }
     }
 
-    // 儲存到 localStorage
+    // 儲存到 localStorage（同時記版本）
     function saveMembers(members) {
       localStorage.setItem('chaiinu_members', JSON.stringify(members));
+      localStorage.setItem('chaiinu_members_v', String(MEMBERS_VERSION));
     }
 
-    // 預設 3 張空白卡
+    // 預設灌入現役 14 人（自神策天堂-巧虎盟 工作表）
     function defaultMembers() {
       return [
-        { lineName: '', chars: [{ id: '', job: '王族', lv: '', city: '' }] },
-        { lineName: '', chars: [{ id: '', job: '騎士', lv: '', city: '' }] },
-        { lineName: '', chars: [{ id: '', job: '妖精', lv: '', city: '' }] },
+        { lineName: 'BEN', chars: [
+          { id: '虎兒',     job: '黑暗妖精', lv: '77', city: '20:00~24:00' },
+          { id: '巧虎',     job: '妖精',     lv: '75', city: '' },
+          { id: '柴犬巧虎', job: '王族',     lv: '73', city: '' },
+        ]},
+        { lineName: '笙闆陳睿笙', chars: [
+          { id: '千羽', job: '妖精',     lv: '77', city: '18:00~01:00' },
+          { id: '千霜', job: '黑暗妖精', lv: '78', city: '' },
+          { id: '千痕', job: '妖精',     lv: '76', city: '' },
+        ]},
+        { lineName: '謝翔富', chars: [
+          { id: '樂米',    job: '妖精', lv: '75', city: '平日 20-24／假日整天' },
+          { id: 'KILL123', job: '妖精', lv: '72', city: '' },
+          { id: 'kill456', job: '妖精', lv: '69', city: '' },
+          { id: 'BBQ',     job: '妖精', lv: '72', city: '' },
+        ]},
+        { lineName: '阿淵', chars: [
+          { id: '迷幻佐藤', job: '黑暗妖精', lv: '72', city: '沒斷線都在' },
+          { id: '語寶',     job: '妖精',     lv: '71', city: '' },
+          { id: '自尊無上', job: '妖精',     lv: '70', city: '' },
+          { id: '雪舞',     job: '妖精',     lv: '68', city: '' },
+        ]},
+        { lineName: '方捷民', chars: [
+          { id: '赤靈',     job: '妖精', lv: '73', city: '大約整天' },
+          { id: '格蘭菲迪', job: '妖精', lv: '65', city: '' },
+          { id: '旺來',     job: '妖精', lv: '69', city: '' },
+          { id: '一定行',   job: '妖精', lv: '73', city: '' },
+        ]},
+        { lineName: '陳小峰', chars: [
+          { id: '林由奈', job: '騎士', lv: '72', city: '不一定（分盟「柴犬最傲嬌」主盟）' },
+          { id: '橘瑪莉', job: '妖精', lv: '71', city: '' },
+          { id: '加藤鷹', job: '王族', lv: '68', city: '' },
+        ]},
+        { lineName: '信', chars: [
+          { id: '真奇怪', job: '妖精', lv: '64', city: '' },
+        ]},
+        { lineName: '林祖墨', chars: [
+          { id: '我處理',     job: '黑暗妖精', lv: '77', city: '12:00~01:00 視工作' },
+          { id: '子晴',       job: '妖精',     lv: '70', city: '' },
+          { id: '娜娜',       job: '妖精',     lv: '73', city: '' },
+          { id: '阿塔與娜娜', job: '妖精',     lv: '73', city: '' },
+          { id: '可可酒精',   job: '妖精',     lv: '70', city: '' },
+          { id: '虎斑貓貓',   job: '妖精',     lv: '67', city: '' },
+          { id: '橘貓貓',     job: '妖精',     lv: '67', city: '' },
+          { id: '加菲貓貓',   job: '妖精',     lv: '64', city: '' },
+        ]},
+        { lineName: '邱宏瑋', chars: [
+          { id: '會飛的待頭', job: '妖精',   lv: '74', city: '每日下班 6 點後' },
+          { id: 'FLY',        job: '妖精',   lv: '72', city: '' },
+          { id: 'FLYDOG',     job: '騎士',   lv: '66', city: '' },
+        ]},
+        { lineName: '廷彧', chars: [
+          { id: 'Hh',   job: '法師', lv: '67', city: '每天 20:30 後' },
+          { id: 'OK',   job: '妖精', lv: '65', city: '' },
+          { id: '趙雲', job: '騎士', lv: '63', city: '' },
+        ]},
+        { lineName: '龍', chars: [
+          { id: '咬冰塊', job: '黑暗妖精', lv: '60', city: '下班後' },
+          { id: '迷路中', job: '妖精',     lv: '52', city: '' },
+          { id: '找路中', job: '妖精',     lv: '50', city: '' },
+        ]},
+        { lineName: '志杰', chars: [
+          { id: 'Ds186',     job: '黑暗妖精', lv: '77', city: '' },
+          { id: '打動機',    job: '妖精',     lv: '71', city: '' },
+          { id: 'Sdsdfdfad', job: '妖精',     lv: '68', city: '' },
+        ]},
+        { lineName: 'Hom', chars: [
+          { id: 'ZOZODER', job: '騎士',     lv: '73', city: '' },
+          { id: 'Sasa',    job: '黑暗妖精', lv: '71', city: '' },
+        ]},
+        { lineName: 'Alan', chars: [
+          { id: '台北張凌赫', job: '騎士', lv: '63', city: '下班後' },
+          { id: 'LU69',       job: '妖精', lv: '61', city: '' },
+          { id: 'PLG',        job: '妖精', lv: '63', city: '' },
+        ]},
       ];
     }
 
@@ -2168,6 +2538,226 @@
     });
 
     renderTrades();
+
+    /* =============================
+       投票所 — Modal + localStorage
+    ============================= */
+
+    function loadVotes() {
+      try { return JSON.parse(localStorage.getItem('chaiinu_votes') || '[]'); }
+      catch(e) { return []; }
+    }
+    function saveVotes(arr) { localStorage.setItem('chaiinu_votes', JSON.stringify(arr)); }
+
+    let votes = loadVotes();
+    let pendingCast = null; // {voteId, optIdx}
+
+    function isVoteClosed(v) {
+      if (!v.deadline) return false;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const dl = new Date(v.deadline);
+      return dl < today;
+    }
+
+    function renderVotes() {
+      const list = document.getElementById('voteList');
+      if (votes.length === 0) {
+        list.innerHTML = `<div class="vote-empty"><i data-lucide="vote" width="28" height="28"></i>還沒有人發起投票 · 點右上方「發起投票」開第一題</div>`;
+        lucide.createIcons({ nodes: [list] });
+        return;
+      }
+      // 新的在上
+      const ordered = [...votes].sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+      list.innerHTML = ordered.map(v => voteCardHtml(v)).join('');
+      lucide.createIcons({ nodes: [list] });
+    }
+
+    function voteCardHtml(v) {
+      const closed = isVoteClosed(v);
+      const totals = v.options.map(opt => opt.voters.length);
+      const totalCount = totals.reduce((s,n) => s+n, 0);
+      const myVoter = (localStorage.getItem('chaiinu_voter_name') || '').trim();
+
+      // 我目前選了哪個（用 LINE 名 match）
+      let myPick = -1;
+      if (myVoter) {
+        v.options.forEach((opt, i) => {
+          if (opt.voters.some(name => name === myVoter)) myPick = i;
+        });
+      }
+
+      const optsHtml = v.options.map((opt, i) => {
+        const cnt = opt.voters.length;
+        const pct = totalCount > 0 ? Math.round(cnt / totalCount * 100) : 0;
+        const isMy = i === myPick;
+        const cls = (closed ? 'disabled' : '') + (isMy ? ' my-pick' : '');
+        const click = closed ? '' : `onclick="openCastModal('${v.id}', ${i})"`;
+        const votersLine = opt.voters.length > 0
+          ? `<div class="vote-voters">└ ${opt.voters.map(n => escapeHtml(n)).join('、')}</div>`
+          : '';
+        return `
+          <div>
+            <div class="vote-option ${cls}" ${click}>
+              <div class="vote-option-bar" style="width:${pct}%;"></div>
+              <div class="vote-option-row">
+                <span class="vote-option-text">${escapeHtml(opt.text)}</span>
+                <span class="vote-option-count">
+                  ${isMy ? '<i data-lucide="check" width="13" height="13" class="my-tick"></i>' : ''}
+                  <span class="pct">${pct}%</span>
+                  · ${cnt} 票
+                </span>
+              </div>
+            </div>
+            ${votersLine}
+          </div>
+        `;
+      }).join('');
+
+      const dlLabel = v.deadline
+        ? (closed
+            ? `<span class="deadline-closed"><i data-lucide="lock" width="11" height="11"></i> 已截止 ${v.deadline}</span>`
+            : `<span class="deadline-active"><i data-lucide="clock" width="11" height="11"></i> 截止 ${v.deadline}</span>`)
+        : `<span><i data-lucide="infinity" width="11" height="11"></i> 不設截止</span>`;
+
+      return `
+        <div class="vote-card ${closed ? 'closed' : ''}">
+          <div class="vote-card-head">
+            <div class="vote-title">${escapeHtml(v.topic)}</div>
+            <div class="vote-card-actions">
+              ${closed ? '' : `<button class="vote-action-btn" onclick="closeVoteEarly('${v.id}')" title="提早截止">提早截止</button>`}
+              <button class="vote-action-btn danger" onclick="deleteVote('${v.id}')" title="刪除">刪除</button>
+            </div>
+          </div>
+          <div class="vote-meta">
+            <span><i data-lucide="calendar" width="11" height="11"></i> 發起 ${v.createdDate}</span>
+            ${dlLabel}
+          </div>
+          <div class="vote-options">${optsHtml}</div>
+          <div class="vote-footer">
+            <div class="vote-totals">總共 <strong>${totalCount}</strong> 票${myPick >= 0 ? `　·　你投了：<strong>${escapeHtml(v.options[myPick].text)}</strong>` : (closed ? '' : '　·　點選項投票')}</div>
+            ${myPick >= 0 && !closed ? `<button class="vote-action-btn" onclick="retractVote('${v.id}')">收回我的票</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function openVoteModal() {
+      document.getElementById('voteTopic').value = '';
+      document.getElementById('voteDeadline').value = '';
+      document.getElementById('voteOptList').innerHTML = '';
+      addVoteOptRow(); addVoteOptRow();
+      document.getElementById('voteModal').classList.add('show');
+      setTimeout(() => document.getElementById('voteTopic').focus(), 80);
+    }
+    function closeVoteModal() { document.getElementById('voteModal').classList.remove('show'); }
+
+    function addVoteOptRow() {
+      const wrap = document.getElementById('voteOptList');
+      const row = document.createElement('div');
+      row.className = 'vote-opt-row';
+      row.innerHTML = `
+        <input type="text" placeholder="選項內容" maxlength="60">
+        <button type="button" class="vote-opt-del" onclick="this.parentElement.remove()" title="刪除"><i data-lucide="x" width="12" height="12"></i></button>
+      `;
+      wrap.appendChild(row);
+      lucide.createIcons({ nodes: [row] });
+    }
+
+    function submitVote() {
+      const topic = document.getElementById('voteTopic').value.trim();
+      const deadline = document.getElementById('voteDeadline').value;
+      const opts = [...document.querySelectorAll('#voteOptList input')]
+        .map(i => i.value.trim()).filter(s => s.length > 0);
+      if (!topic) { alert('請填投票題目'); return; }
+      if (opts.length < 2) { alert('至少要 2 個選項'); return; }
+      const today = new Date();
+      const dStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+      votes.push({
+        id: 'v_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+        topic, deadline,
+        createdAt: Date.now(),
+        createdDate: dStr,
+        options: opts.map(text => ({ text, voters: [] })),
+      });
+      saveVotes(votes);
+      renderVotes();
+      closeVoteModal();
+    }
+
+    function openCastModal(voteId, optIdx) {
+      const v = votes.find(x => x.id === voteId);
+      if (!v) return;
+      pendingCast = { voteId, optIdx };
+      document.getElementById('castPickPreview').textContent = v.options[optIdx].text;
+      document.getElementById('castVoter').value = localStorage.getItem('chaiinu_voter_name') || '';
+      document.getElementById('castModal').classList.add('show');
+      setTimeout(() => document.getElementById('castVoter').focus(), 80);
+    }
+    function closeCastModal() { document.getElementById('castModal').classList.remove('show'); pendingCast = null; }
+
+    function confirmCast() {
+      if (!pendingCast) return;
+      const name = document.getElementById('castVoter').value.trim();
+      if (!name) { alert('請填你的 LINE 名'); return; }
+      const v = votes.find(x => x.id === pendingCast.voteId);
+      if (!v) return closeCastModal();
+      // 移除這人在所有選項上的舊票
+      v.options.forEach(opt => { opt.voters = opt.voters.filter(n => n !== name); });
+      // 投新票
+      v.options[pendingCast.optIdx].voters.push(name);
+      // 記住投票者名字（下次自動填）
+      localStorage.setItem('chaiinu_voter_name', name);
+      saveVotes(votes);
+      renderVotes();
+      closeCastModal();
+    }
+
+    function retractVote(voteId) {
+      const me = localStorage.getItem('chaiinu_voter_name');
+      if (!me) return;
+      if (!confirm(`確定收回「${me}」這一票？`)) return;
+      const v = votes.find(x => x.id === voteId);
+      if (!v) return;
+      v.options.forEach(opt => { opt.voters = opt.voters.filter(n => n !== me); });
+      saveVotes(votes);
+      renderVotes();
+    }
+
+    function closeVoteEarly(voteId) {
+      if (!confirm('確定提早截止這個投票？截止後不能再投。')) return;
+      const v = votes.find(x => x.id === voteId);
+      if (!v) return;
+      const today = new Date();
+      // 設成昨天 → 自動判定為 closed
+      today.setDate(today.getDate() - 1);
+      v.deadline = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+      saveVotes(votes);
+      renderVotes();
+    }
+
+    function deleteVote(voteId) {
+      if (!confirm('確定刪除這個投票？所有票數會一起刪掉。')) return;
+      votes = votes.filter(v => v.id !== voteId);
+      saveVotes(votes);
+      renderVotes();
+    }
+
+    // mask click + ESC 關閉
+    ['voteModal','castModal'].forEach(id => {
+      document.getElementById(id).addEventListener('click', (e) => {
+        if (e.target.id === id) {
+          if (id === 'voteModal') closeVoteModal();
+          else closeCastModal();
+        }
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (document.getElementById('voteModal').classList.contains('show')) closeVoteModal();
+      if (document.getElementById('castModal').classList.contains('show')) closeCastModal();
+    });
+
+    renderVotes();
 
     function escapeHtml(str) {
       return String(str)
